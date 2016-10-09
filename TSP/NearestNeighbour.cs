@@ -1,41 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TSP
 {
     class NearestNeighbour : Algorithm
     {
-        //private List<Node> clonedList;
-        //private Node actualNode;
-        //private Node nextNode;
-
-        public NearestNeighbour(List<Node> nodes)
-        {
-            var temporaryArray = new Node[nodes.Count];     
-            nodes.CopyTo(temporaryArray);
-            ClonedNodes = temporaryArray.ToList();
-            InputNodes = temporaryArray.ToList();
-            OutputNodes = new List<Node>();
-            Distance = 0;
-        }
-
-        public void ResetAlgorithm()
-        {
-            var temporaryArray = new Node[ClonedNodes.Count];
-            ClonedNodes.CopyTo(temporaryArray);
-            InputNodes = temporaryArray.ToList();
-            OutputNodes.Clear();
-            Distance = 0;
-        }
+        public NearestNeighbour(List<Node> nodes) : base(nodes) { }
 
         public void FindRoute(Node startNode)
         {
             var actualNode = startNode;
 
-            for (int i = 0; i < OutputNodesLimit; i++)
+            for (var i = 0; i < OutputNodesLimit; i++)
             {
                 //Console.WriteLine(actualNode.X + " " + actualNode.Y);
                 OutputNodes.Add(actualNode);
@@ -43,7 +18,9 @@ namespace TSP
                 //Console.WriteLine(InputNodes.Count);
                 actualNode = FindNearestNeighbour(actualNode);
                 //Console.ReadKey();
-            }        
+            }
+            Distance += CalculateDistance(OutputNodes[OutputNodes.Count - 1],
+                OutputNodes[0]);
         }
 
         private Node FindNearestNeighbour(Node sourceNode)
@@ -54,12 +31,11 @@ namespace TSP
             foreach (var node in InputNodes)
             {
                 var distance = CalculateDistance(sourceNode, node);
-                if (minimalDistance > distance)
-                {
-                    minimalDistance = distance;
-                    nearestNode = node;
-                }
+                if (minimalDistance <= distance) continue;
+                minimalDistance = distance;
+                nearestNode = node;
             }
+
             Distance += minimalDistance;
 
             return nearestNode;

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TSP
 {
@@ -24,12 +21,12 @@ namespace TSP
             {
                 if (node.X > BitmapWidth)
                 {
-                    BitmapWidth = node.X + 30;
+                    BitmapWidth = node.X + 50; // Added more because of cuting some points
                 }
 
                 if (node.Y > BitmapHeight)
                 {
-                    BitmapHeight = node.Y + 30;
+                    BitmapHeight = node.Y + 50;
                 }
             }
         }
@@ -46,10 +43,8 @@ namespace TSP
                 using (Graphics g = Graphics.FromImage(cpy))
                 {
                     g.Clear(Color.White);
-                    //g.DrawLine(Pens.Red, 50, 20, 50, 40);
                     foreach (var node in allNodes)
                     {
-                        //g.DrawEllipse(Pens.Red, new RectangleF(new PointF(node.X, node.Y), new SizeF(15.0f, 15.0f)));
                         g.FillEllipse(new SolidBrush(Color.Red), new RectangleF(new PointF(node.X, node.Y), new SizeF(17.0f, 15.0f)));
                     }
                     for (int i = 0; i < resultNodes.Count-1; i++)
@@ -60,12 +55,21 @@ namespace TSP
                         g.FillEllipse(new SolidBrush(Color.Black), new RectangleF(point2, new SizeF(10.0f, 10.0f)));
                         g.DrawLine(Pens.Blue, point1, point2);
                     }
+
+                    g.DrawString("1", new Font("Tahoma", 48), Brushes.Black, resultNodes[0].X + 20, resultNodes[0].Y );
+                    var firstPoint = new PointF(resultNodes[0].X, resultNodes[0].Y);
+                    var lastPoint = new PointF(resultNodes[resultNodes.Count-1].X, resultNodes[resultNodes.Count-1].Y);
+                    g.DrawLine(Pens.Blue, firstPoint, lastPoint); 
+
                     foreach (var node in resultNodes)
                     {
                         var lastNode = new PointF(node.X, node.Y);
                         g.FillEllipse(new SolidBrush(Color.Black), new RectangleF(new PointF(node.X, node.Y), new SizeF(10.0f, 10.0f)));
                     }
                 }
+
+                if ( System.IO.File.Exists(filename) )
+                    System.IO.File.Delete(filename);
 
                 cpy.Save(filename);
                 cpy.Dispose();
