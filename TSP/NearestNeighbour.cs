@@ -8,44 +8,82 @@ namespace TSP
 {
     class NearestNeighbour : Algorithm
     {
-        private List<Node> clonedList;
-        private Node actualNode;
-        private Node nextNode;
+        //private List<Node> clonedList;
+        //private Node actualNode;
+        //private Node nextNode;
 
-        public NearestNeighbour(List<Node> list)
+        public NearestNeighbour(List<Node> nodes)
         {
-            clonedList = list;
+            var temporaryArray = new Node[nodes.Count];     
+            nodes.CopyTo(temporaryArray);
+            InputNodes = temporaryArray.ToList();
+            OutputNodes = new List<Node>();
+            Distance = 0;
         }
 
-        public int calculateNearestNeighbour(Node startNode)
+        public void FindRoute(Node startNode)
         {
-            int min = 0;
-            actualNode = startNode;
-            clonedList.Remove(startNode);
-            for (int i = 0; i < clonedList.Count; i++)
+            var actualNode = startNode;
+
+            for (int i = 0; i < OutputNodesLimit; i++)
             {
-                int distance = Distance(actualNode, clonedList[i]);
-                if (distance < min || min == 0)
+                //Console.WriteLine(actualNode.X + " " + actualNode.Y);
+                OutputNodes.Add(actualNode);
+                InputNodes.Remove(actualNode);
+                Console.WriteLine(InputNodes.Count);
+                actualNode = FindNearestNeighbour(actualNode);
+                //Console.ReadKey();
+            }        
+        }
+
+        private Node FindNearestNeighbour(Node sourceNode)
+        {
+            var minimalDistance = int.MaxValue;
+            Node nearestNode = null;
+
+            foreach (var node in InputNodes)
+            {
+                var distance = CalculateDistance(sourceNode, node);
+                if (minimalDistance > distance)
                 {
-                    min = distance;
-                    nextNode = clonedList[i];
+                    minimalDistance = distance;
+                    nearestNode = node;
                 }
             }
+            Distance += minimalDistance;
 
-            return min;
+            return nearestNode;
         }
 
-        public int CalculateRoute(Node node)
-        {
-            int distance;
-            distance = calculateNearestNeighbour(node);
-            for (int i = 0; i < 49; i++)
-            {
-                if (nextNode != null)
-                    distance += calculateNearestNeighbour(nextNode);
-            }
+        //public int calculateNearestNeighbour(Node startNode)
+        //{
+        //    int min = 0;
+        //    actualNode = startNode;
+        //    clonedList.Remove(startNode);
+        //    for (int i = 0; i < clonedList.Count; i++)
+        //    {
+        //        int distance = CalculateDistance(actualNode, clonedList[i]);
+        //        if (distance < min || min == 0)
+        //        {
+        //            min = distance;
+        //            nextNode = clonedList[i];
+        //        }
+        //    }
 
-            return distance += Distance(nextNode, node);
-        }
+        //    return min;
+        //}
+
+        //public int CalculateRoute(Node node)
+        //{
+        //    int distance;
+        //    distance = calculateNearestNeighbour(node);
+        //    for (int i = 0; i < 49; i++)
+        //    {
+        //        if (nextNode != null)
+        //            distance += calculateNearestNeighbour(nextNode);
+        //    }
+
+        //    return distance += CalculateDistance(nextNode, node);
+        //}
     }
 }
