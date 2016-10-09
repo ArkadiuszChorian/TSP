@@ -23,7 +23,7 @@ namespace TSP
                 OutputNodes[0]);
         }
 
-        private Node FindNearestNeighbour(Node sourceNode)
+        public virtual Node FindNearestNeighbour(Node sourceNode)
         {
             var minimalDistance = int.MaxValue;
             Node nearestNode = null;

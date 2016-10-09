@@ -16,31 +16,39 @@ namespace TSP
             //var accumulatedDistance = 0;
             //List<Node> bestRoute = new List<Node>();
 
+            Console.WriteLine("---Nearest Neighbour---");
             NearestNeighbour nearestNeighbour = new NearestNeighbour(repository.Nodes);
             Data dataNn = GetData(nearestNeighbour);
-
-            Console.WriteLine("---Nearest Neighbour---");
-            Console.WriteLine("MIN: " + dataNn.MinimumDistance);
-            Console.WriteLine("AVG: " + dataNn.AccumulatedDistance/nearestNeighbour.ClonedNodes.Count);
-            Console.WriteLine("MAX: " + dataNn.MaximumDistance);
-            Console.WriteLine(dataNn.BestRoute.Count);
-            Console.WriteLine();
+            Drawer drawer = new Drawer(repository.Nodes);
+            drawer.DrawChart("NearestNeighbour.bmp", repository.Nodes, dataNn.BestRoute);
+            //Console.WriteLine("MIN: " + dataNn.MinimumDistance);
+            //Console.WriteLine("AVG: " + dataNn.AccumulatedDistance/nearestNeighbour.ClonedNodes.Count);
+            //Console.WriteLine("MAX: " + dataNn.MaximumDistance);
+            //Console.WriteLine(dataNn.BestRoute.Count);
+            //Console.WriteLine();
 
             //nearestNeighbour.FindRoute(nearestNeighbour.InputNodes[0]);
             //Console.WriteLine(repository.Nodes.Equals(nearestNeighbour.InputNodes));
             //Console.WriteLine(nearestNeighbour.OutputNodes.Count);                    
 
-            Drawer drawer = new Drawer(repository.Nodes);
+            
             //drawer.FindMinimalBitmapSize(repository.Nodes);
-            drawer.DrawChart("NearestNeighbour.bmp", repository.Nodes, dataNn.BestRoute);
+            
 
             //minimumDistance = int.MaxValue;
             //maximumDistance = 0;
             //accumulatedDistance = 0;
             //bestRoute.Clear();
 
+            Console.WriteLine("---Greedy Cycle---");
             GreedyCycle greedyCycle = new GreedyCycle(repository.Nodes);
             Data dataGc = GetData(greedyCycle);
+            drawer.DrawChart("GreedyCycle.bmp", repository.Nodes, dataGc.BestRoute);
+
+            Console.WriteLine("---Greedy Cycle Nearest Neighbour---");
+            GraspNn gnn = new GraspNn(repository.Nodes);
+            Data dataGnn = GetData(gnn);
+            drawer.DrawChart("GreedyCycleNN.bmp", repository.Nodes, dataGnn.BestRoute);
 
             //for ( int i = 0; i < greedyCycle.ClonedNodes.Count; i++ )
             //{
@@ -63,14 +71,14 @@ namespace TSP
             //    greedyCycle.ResetAlgorithm();
             //}
 
-            Console.WriteLine("---Greedy Cycle---");
-            Console.WriteLine("MIN: " + dataGc.MinimumDistance);
-            Console.WriteLine("AVG: " + dataGc.AccumulatedDistance / greedyCycle.ClonedNodes.Count);
-            Console.WriteLine("MAX: " + dataGc.MaximumDistance);
-            Console.WriteLine(dataGc.BestRoute.Count);
-            Console.WriteLine();
 
-            drawer.DrawChart("GreedyCycle.bmp", repository.Nodes, dataGc.BestRoute);
+            //Console.WriteLine("MIN: " + dataGc.MinimumDistance);
+            //Console.WriteLine("AVG: " + dataGc.AccumulatedDistance / greedyCycle.ClonedNodes.Count);
+            //Console.WriteLine("MAX: " + dataGc.MaximumDistance);
+            //Console.WriteLine(dataGc.BestRoute.Count);
+            //Console.WriteLine();
+
+
 
             //for (int i = 0; i < 100; i++)
             //{
@@ -107,6 +115,16 @@ namespace TSP
 
                 algorithm.ResetAlgorithm();
             }
+
+            Console.WriteLine("MIN: " + data.MinimumDistance);
+            Console.WriteLine("AVG: " + data.AccumulatedDistance / algorithm.ClonedNodes.Count);
+            Console.WriteLine("MAX: " + data.MaximumDistance);
+            Console.WriteLine(data.BestRoute.Count);
+            foreach (var nodes in data.BestRoute)
+            {
+                Console.Write($"{nodes.Id} ");
+            }
+            Console.WriteLine();
 
             return data;
         }

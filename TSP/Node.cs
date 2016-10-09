@@ -1,6 +1,8 @@
-﻿namespace TSP
+﻿using System;
+
+namespace TSP
 {
-    class Node
+    class Node : IComparable
     {
         public int Id { get; set; }
         public int X { get; set; }
@@ -10,6 +12,13 @@
             Id = id;
             X = x;
             Y = y;
+        }
+
+        public int CompareTo(object obj)
+        {
+            Node node = obj as Node;
+            if (node != null) return Id.CompareTo(node.Id);
+            throw new ArgumentException("Argument is not of type Node");
         }
     }
 }
