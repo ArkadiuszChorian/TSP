@@ -16,8 +16,18 @@ namespace TSP
         {
             var temporaryArray = new Node[nodes.Count];     
             nodes.CopyTo(temporaryArray);
+            ClonedNodes = temporaryArray.ToList();
             InputNodes = temporaryArray.ToList();
             OutputNodes = new List<Node>();
+            Distance = 0;
+        }
+
+        public void ResetAlgorithm()
+        {
+            var temporaryArray = new Node[ClonedNodes.Count];
+            ClonedNodes.CopyTo(temporaryArray);
+            InputNodes = temporaryArray.ToList();
+            OutputNodes.Clear();
             Distance = 0;
         }
 
@@ -30,7 +40,7 @@ namespace TSP
                 //Console.WriteLine(actualNode.X + " " + actualNode.Y);
                 OutputNodes.Add(actualNode);
                 InputNodes.Remove(actualNode);
-                Console.WriteLine(InputNodes.Count);
+                //Console.WriteLine(InputNodes.Count);
                 actualNode = FindNearestNeighbour(actualNode);
                 //Console.ReadKey();
             }        

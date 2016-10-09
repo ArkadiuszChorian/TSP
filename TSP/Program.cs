@@ -16,26 +16,46 @@ namespace TSP
             Repository repository = new Repository();
             repository.ReadFromFile(fileName);
 
+            var minimumDistance = int.MaxValue;
+            var maximumDistance = 0;
+            var accumulatedDistance = 0;
+            List<Node> bestRoute = new List<Node>();
+
             NearestNeighbour nearestNeighbour = new NearestNeighbour(repository.Nodes);
-          
-            nearestNeighbour.FindRoute(nearestNeighbour.InputNodes[0]);
-            Console.WriteLine(repository.Nodes.Equals(nearestNeighbour.InputNodes));
-            Console.WriteLine(nearestNeighbour.OutputNodes.Count);          
 
-            var correctNodes = 0;
-
-            foreach (var outputNode in nearestNeighbour.OutputNodes)
+            for (int i = 0; i < nearestNeighbour.ClonedNodes.Count; i++)
             {
-                if (repository.Nodes.Contains(outputNode))
+                nearestNeighbour.FindRoute(nearestNeighbour.InputNodes[i]);
+                accumulatedDistance += nearestNeighbour.Distance;
+
+                if (nearestNeighbour.Distance > maximumDistance)
                 {
-                    correctNodes++;
+                    maximumDistance = nearestNeighbour.Distance;
                 }
+
+                if (nearestNeighbour.Distance < minimumDistance)
+                {
+                    minimumDistance = nearestNeighbour.Distance;
+                    var temporaryArray = new Node[nearestNeighbour.OutputNodes.Count];
+                    nearestNeighbour.OutputNodes.CopyTo(temporaryArray);
+                    bestRoute = temporaryArray.ToList();
+                }
+
+                nearestNeighbour.ResetAlgorithm();
             }
-            Console.WriteLine(correctNodes);
+
+            Console.WriteLine("MIN: " + minimumDistance);
+            Console.WriteLine("AVG: " + accumulatedDistance/nearestNeighbour.ClonedNodes.Count);
+            Console.WriteLine("MAX: " + maximumDistance);
+            Console.WriteLine(bestRoute.Count);
+
+            //nearestNeighbour.FindRoute(nearestNeighbour.InputNodes[0]);
+            //Console.WriteLine(repository.Nodes.Equals(nearestNeighbour.InputNodes));
+            //Console.WriteLine(nearestNeighbour.OutputNodes.Count);                    
 
             Drawer drawer = new Drawer(repository.Nodes);
             //drawer.FindMinimalBitmapSize(repository.Nodes);
-            drawer.DrawChart("NearestNeighbour.bmp", repository.Nodes, nearestNeighbour.OutputNodes);
+            drawer.DrawChart("NearestNeighbour.bmp", repository.Nodes, bestRoute);
 
             //for (int i = 0; i < 100; i++)
             //{
