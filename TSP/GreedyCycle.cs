@@ -21,7 +21,7 @@ namespace TSP
                 OutputNodes[0]);
         }
 
-        private Node FindMinimalPath(Node sourceNode, Node firstNode)
+        public virtual Node FindMinimalPath(Node sourceNode, Node firstNode)
         {
             var minimalPath = int.MaxValue;
             Node bestFoundNode = null;

@@ -47,6 +47,7 @@
     <Compile Include="Algorithm.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="Drawer.cs" />
+    <Compile Include="GraspGC.cs" />
     <Compile Include="GraspNN.cs" />
     <Compile Include="GreedyCycle.cs" />
     <Compile Include="NearestNeighbour.cs" />

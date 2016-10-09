@@ -45,10 +45,15 @@ namespace TSP
             Data dataGc = GetData(greedyCycle);
             drawer.DrawChart("GreedyCycle.bmp", repository.Nodes, dataGc.BestRoute);
 
-            Console.WriteLine("---Greedy Cycle Nearest Neighbour---");
+            Console.WriteLine("---Grasp Nearest Neighbour---");
             GraspNn gnn = new GraspNn(repository.Nodes);
             Data dataGnn = GetData(gnn);
-            drawer.DrawChart("GreedyCycleNN.bmp", repository.Nodes, dataGnn.BestRoute);
+            drawer.DrawChart("GraspNN.bmp", repository.Nodes, dataGnn.BestRoute);
+
+            Console.WriteLine("---Grasp Greedy Cycle---");
+            GraspGc ggc = new GraspGc(repository.Nodes);
+            Data dataGgc = GetData(ggc);
+            drawer.DrawChart("GraspGC.bmp", repository.Nodes, dataGgc.BestRoute);
 
             //for ( int i = 0; i < greedyCycle.ClonedNodes.Count; i++ )
             //{

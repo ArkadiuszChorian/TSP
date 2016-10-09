@@ -11,8 +11,6 @@ namespace TSP
         public override Node FindNearestNeighbour(Node sourceNode)
         {
             var minimalDistanceList = new SortedDictionary< Node, int>();
-            var minimalDistance = int.MaxValue;
-            Node nearestNode = null;
 
             foreach ( var node in InputNodes )
             {
@@ -21,10 +19,10 @@ namespace TSP
             }
 
             var kvp = minimalDistanceList.OrderBy(i => i.Value);
-            var random = new Random();
-            var val = kvp.ElementAt(random.Next(0, 2));
-            nearestNode = val.Key;
-            minimalDistance = val.Value;
+            var number = RandomObject.Next(0, 2);
+            var val = kvp.ElementAt(number);
+            var nearestNode = val.Key;
+            var minimalDistance = val.Value;
 
             Distance += minimalDistance;
 

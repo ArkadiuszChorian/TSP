@@ -42,5 +42,6 @@ namespace TSP
         public List<Node> OutputNodes { get; set; }
         public int Distance { get; set; }
         public const int OutputNodesLimit = 50;
+        public Random RandomObject { get; set; } = new Random();
     }
 }
