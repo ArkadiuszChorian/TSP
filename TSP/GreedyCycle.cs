@@ -6,7 +6,7 @@ namespace TSP
     {
         public GreedyCycle(List<Node> nodes) : base(nodes) { }
 
-        public void FindRoute(Node startNode)
+        public override void FindRoute(Node startNode)
         {
             var actualNode = startNode;
 

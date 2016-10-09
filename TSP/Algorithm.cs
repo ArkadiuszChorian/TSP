@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TSP
 {
-    class Algorithm
+    internal class Algorithm
     {
         public Algorithm(List<Node> nodes)
         {
@@ -15,6 +15,8 @@ namespace TSP
             OutputNodes = new List<Node>();
             Distance = 0;
         }
+
+        public virtual void FindRoute(Node node) {}
 
         public int CalculateDistance(Node node1, Node node2)
         {

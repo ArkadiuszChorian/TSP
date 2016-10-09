@@ -45,7 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
+    <Compile Include="Data.cs" />
     <Compile Include="Drawer.cs" />
+    <Compile Include="GraspNN.cs" />
     <Compile Include="GreedyCycle.cs" />
     <Compile Include="NearestNeighbour.cs" />
     <Compile Include="Node.cs" />
