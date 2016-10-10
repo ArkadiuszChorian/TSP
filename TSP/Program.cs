@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace TSP
@@ -6,6 +7,7 @@ namespace TSP
     class Program
     {
         const string FileName = "kroA100.tsp";
+        static StreamWriter file = new StreamWriter("results.txt");
         static void Main()
         {
             Repository repository = new Repository();
@@ -17,6 +19,7 @@ namespace TSP
             //List<Node> bestRoute = new List<Node>();
 
             Console.WriteLine("---Nearest Neighbour---");
+            file.WriteLine("---Nearest Neighbour---");
             NearestNeighbour nearestNeighbour = new NearestNeighbour(repository.Nodes);
             Data dataNn = GetData(nearestNeighbour);
             Drawer drawer = new Drawer(repository.Nodes);
@@ -41,19 +44,24 @@ namespace TSP
             //bestRoute.Clear();
 
             Console.WriteLine("---Greedy Cycle---");
+            file.WriteLine("---Greedy Cycle---");
             GreedyCycle greedyCycle = new GreedyCycle(repository.Nodes);
             Data dataGc = GetData(greedyCycle);
             drawer.DrawChart("GreedyCycle.bmp", repository.Nodes, dataGc.BestRoute);
 
             Console.WriteLine("---Grasp Nearest Neighbour---");
+            file.WriteLine("---Grasp Nearest Neighbour---");
             GraspNn gnn = new GraspNn(repository.Nodes);
             Data dataGnn = GetData(gnn);
             drawer.DrawChart("GraspNN.bmp", repository.Nodes, dataGnn.BestRoute);
 
             Console.WriteLine("---Grasp Greedy Cycle---");
+            file.WriteLine("---Grasp Greedy Cycle---");
             GraspGc ggc = new GraspGc(repository.Nodes);
             Data dataGgc = GetData(ggc);
             drawer.DrawChart("GraspGC.bmp", repository.Nodes, dataGgc.BestRoute);
+
+            file.Close();
 
             //for ( int i = 0; i < greedyCycle.ClonedNodes.Count; i++ )
             //{
@@ -119,17 +127,28 @@ namespace TSP
                 }
 
                 algorithm.ResetAlgorithm();
-            }
+            }         
 
-            Console.WriteLine("MIN: " + data.MinimumDistance);
-            Console.WriteLine("AVG: " + data.AccumulatedDistance / algorithm.ClonedNodes.Count);
-            Console.WriteLine("MAX: " + data.MaximumDistance);
-            Console.WriteLine(data.BestRoute.Count);
+            // Write the string to a file.           
+            file.WriteLine("MIN: " + data.MinimumDistance);
+            file.WriteLine("AVG: " + data.AccumulatedDistance / algorithm.ClonedNodes.Count);
+            file.WriteLine("MAX: " + data.MaximumDistance);
+            //file.WriteLine(data.BestRoute.Count);
             foreach (var nodes in data.BestRoute)
             {
-                Console.Write($"{nodes.Id} ");
+                file.Write($"{nodes.Id} ");
             }
-            Console.WriteLine();
+            file.WriteLine();           
+
+            //Console.WriteLine("MIN: " + data.MinimumDistance);
+            //Console.WriteLine("AVG: " + data.AccumulatedDistance / algorithm.ClonedNodes.Count);
+            //Console.WriteLine("MAX: " + data.MaximumDistance);
+            //Console.WriteLine(data.BestRoute.Count);
+            //foreach (var nodes in data.BestRoute)
+            //{
+            //    Console.Write($"{nodes.Id} ");
+            //}
+            //Console.WriteLine();
 
             return data;
         }
