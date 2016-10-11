@@ -2,7 +2,7 @@
 
 namespace TSP
 {
-    class Node : IComparable
+    class Node : IComparable, ICloneable
     {
         public int Id { get; set; }
         public int X { get; set; }
@@ -19,6 +19,11 @@ namespace TSP
             Node node = obj as Node;
             if (node != null) return Id.CompareTo(node.Id);
             throw new ArgumentException("Argument is not of type Node");
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 }

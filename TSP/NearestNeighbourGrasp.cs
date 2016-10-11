@@ -6,7 +6,7 @@ namespace TSP
 {
     class NearestNeighbourGrasp : NearestNeighbour
     {
-        public NearestNeighbourGrasp( List<Node> nodes ) : base(nodes) { }
+        public NearestNeighbourGrasp(IList<Node> nodes ) : base(nodes) { }
 
         public override Node FindNearestNeighbour(Node sourceNode)
         {

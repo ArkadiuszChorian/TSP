@@ -6,8 +6,7 @@ namespace TSP
 {
     class Repository
     {
-        public List<Node> Nodes { get; set; } = new List<Node>();
-        //public StreamWriter _file = new StreamWriter("results.txt");
+        public IList<Node> Nodes { get; set; } = new List<Node>();
         public StreamWriter StreamWriter { get; set; }
         public const string InputFileName = "kroA100.tsp";
         public const string OutputFileName = "results.txt";

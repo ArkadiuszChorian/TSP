@@ -4,7 +4,7 @@ namespace TSP
 {
     class GreedyCycle : Algorithm
     {
-        public GreedyCycle(List<Node> nodes) : base(nodes) { }
+        public GreedyCycle(IList<Node> nodes) : base(nodes) { }
 
         public override void FindRoute(Node startNode)
         {

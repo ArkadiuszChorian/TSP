@@ -8,7 +8,7 @@ namespace TSP
 {
     class GreedyCycleGrasp : GreedyCycle
     {
-        public GreedyCycleGrasp(List<Node> nodes) : base(nodes) { }
+        public GreedyCycleGrasp(IList<Node> nodes) : base(nodes) { }
 
         public override Node FindMinimalPath(Node sourceNode, Node firstNode)
         {

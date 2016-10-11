@@ -6,12 +6,10 @@ namespace TSP
 {
     internal class Algorithm
     {
-        public Algorithm(List<Node> nodes)
+        public Algorithm(IList<Node> nodes)
         {
-            var temporaryArray = new Node[nodes.Count];
-            nodes.CopyTo(temporaryArray);
-            ClonedNodes = temporaryArray.ToList();
-            InputNodes = temporaryArray.ToList();
+            ClonedNodes = nodes.CloneList();
+            InputNodes = nodes.CloneList();
             OutputNodes = new List<Node>();
             Distance = 0;
         }
@@ -30,16 +28,14 @@ namespace TSP
 
         public void ResetAlgorithm()
         {
-            var temporaryArray = new Node[ClonedNodes.Count];
-            ClonedNodes.CopyTo(temporaryArray);
-            InputNodes = temporaryArray.ToList();
+            InputNodes = ClonedNodes.CloneList();
             OutputNodes.Clear();
             Distance = 0;
         }
 
-        public List<Node> ClonedNodes { get; set; }
-        public List<Node> InputNodes { get; set; }
-        public List<Node> OutputNodes { get; set; }
+        public IList<Node> ClonedNodes { get; set; }
+        public IList<Node> InputNodes { get; set; }
+        public IList<Node> OutputNodes { get; set; }
         public int Distance { get; set; }
         public const int OutputNodesLimit = 50;
         public Random RandomObject { get; set; } = new Random();

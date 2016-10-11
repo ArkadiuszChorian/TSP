@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -58,9 +59,7 @@ namespace TSP
                 if ( algorithm.Distance < data.MinimumDistance )
                 {
                     data.MinimumDistance = algorithm.Distance;
-                    var temporaryArray = new Node[algorithm.OutputNodes.Count];
-                    algorithm.OutputNodes.CopyTo(temporaryArray);
-                    data.BestRoute = temporaryArray.ToList();
+                    data.BestRoute = algorithm.OutputNodes.CloneList();
                 }
 
                 algorithm.ResetAlgorithm();

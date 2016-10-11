@@ -4,7 +4,7 @@ namespace TSP
 {
     class NearestNeighbour : Algorithm
     {
-        public NearestNeighbour(List<Node> nodes) : base(nodes) { }
+        public NearestNeighbour(IList<Node> nodes) : base(nodes) { }
 
         public override void FindRoute(Node startNode)
         {

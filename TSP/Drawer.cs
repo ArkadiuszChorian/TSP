@@ -8,14 +8,14 @@ namespace TSP
     {
         public int BitmapWidth { get; set; }
         public int BitmapHeight { get; set; }
-        public Drawer(IEnumerable<Node> nodes)
+        public Drawer(IList<Node> nodes)
         {
             BitmapWidth = 0;
             BitmapHeight = 0;
             FindMinimalBitmapSize(nodes);
         }
 
-        private void FindMinimalBitmapSize(IEnumerable<Node> nodes)
+        private void FindMinimalBitmapSize(IList<Node> nodes)
         {
             foreach (var node in nodes)
             {
@@ -30,7 +30,7 @@ namespace TSP
                 }
             }
         }
-        public void DrawChart(string filename, List<Node> allNodes, List<Node> resultNodes)
+        public void DrawChart(string filename, IList<Node> allNodes, IList<Node> resultNodes)
         {
             try
             {
