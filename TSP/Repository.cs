@@ -7,25 +7,28 @@ namespace TSP
     class Repository
     {
         public List<Node> Nodes { get; set; } = new List<Node>();
-        public void ReadFromFile(string fileName)
+        //public StreamWriter _file = new StreamWriter("results.txt");
+        public StreamWriter StreamWriter { get; set; }
+        public const string InputFileName = "kroA100.tsp";
+        public const string OutputFileName = "results.txt";
+        public void ReadFromFile()
         {
             try
             {   // Open the text file using a stream reader.
-                using (StreamReader streamReader = new StreamReader(fileName))
+                using (var streamReader = new StreamReader(InputFileName))
                 {
-                    for (int i = 0; i < 6; i++)
+                    for (var i = 0; i < 6; i++)
                     {
                         streamReader.ReadLine();
                     }
-                    
-                    string[] parameters;
 
                     while (!streamReader.EndOfStream)
                     {
-                        parameters = streamReader.ReadLine().Split(' ');
+                        var readLine = streamReader.ReadLine();
+                        if (readLine == null) continue;
+                        var parameters = readLine.Split(' ');
 
                         Nodes.Add(new Node(int.Parse(parameters[0]), int.Parse(parameters[1]), int.Parse(parameters[2])));
-                        //Console.WriteLine("Check this out: " + Nodes[1].Id + " " + Nodes[1].X + " " + Nodes[1].Y);
                     }
                 }
             }
@@ -34,7 +37,30 @@ namespace TSP
                 Console.WriteLine("The file could not be read:");
                 Console.WriteLine(e.Message);
             }
-            //Console.WriteLine("Check this out: " + Nodes[1].Id + " " + Nodes[1].X + " " + Nodes[1].Y);
+        }
+
+        public void PrepareFileToWrite()
+        {
+            if (StreamWriter == null) StreamWriter = new StreamWriter(OutputFileName);
+        }
+
+        public void WriteToFile(Algorithm algorithm, Data data, string title)
+        {
+            if (StreamWriter == null) return;
+            StreamWriter.WriteLine(title);
+            StreamWriter.WriteLine("MIN: " + data.MinimumDistance);
+            StreamWriter.WriteLine("AVG: " + data.AccumulatedDistance / algorithm.ClonedNodes.Count);
+            StreamWriter.WriteLine("MAX: " + data.MaximumDistance);
+            foreach (var nodes in data.BestRoute)
+            {
+                StreamWriter.Write($"{nodes.Id} ");
+            }
+            StreamWriter.WriteLine();
+        }
+
+        public void CloseFileToWrite()
+        {
+            StreamWriter.Close();
         }
     }
 }

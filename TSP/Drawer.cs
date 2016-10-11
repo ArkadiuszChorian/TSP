@@ -8,14 +8,14 @@ namespace TSP
     {
         public int BitmapWidth { get; set; }
         public int BitmapHeight { get; set; }
-        public Drawer(List<Node> nodes)
+        public Drawer(IEnumerable<Node> nodes)
         {
             BitmapWidth = 0;
             BitmapHeight = 0;
             FindMinimalBitmapSize(nodes);
         }
 
-        private void FindMinimalBitmapSize(List<Node> nodes)
+        private void FindMinimalBitmapSize(IEnumerable<Node> nodes)
         {
             foreach (var node in nodes)
             {
@@ -32,15 +32,13 @@ namespace TSP
         }
         public void DrawChart(string filename, List<Node> allNodes, List<Node> resultNodes)
         {
-            Bitmap cpy;
             try
             {
-                //Bitmap bmp = new Bitmap(800, 800);
-                Bitmap bmp = new Bitmap(BitmapWidth, BitmapHeight);
-                cpy = (Bitmap)bmp.Clone();
+                var bmp = new Bitmap(BitmapWidth, BitmapHeight);
+                var cpy = (Bitmap)bmp.Clone();
                 bmp.Dispose();
 
-                using (Graphics g = Graphics.FromImage(cpy))
+                using (var g = Graphics.FromImage(cpy))
                 {
                     g.Clear(Color.White);
                     foreach (var node in allNodes)
@@ -78,8 +76,6 @@ namespace TSP
             {
                 Console.WriteLine("Conversion failed: {0}", ex.Message);
             }
-            //cpy.SetResolution(96, 96);
-
         }
     }
 }

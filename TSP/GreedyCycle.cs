@@ -17,8 +17,7 @@ namespace TSP
                 actualNode = FindMinimalPath(actualNode, OutputNodes[0]);
             }
 
-            Distance += CalculateDistance(OutputNodes[OutputNodes.Count - 1],
-                OutputNodes[0]);
+            Distance += CalculateDistance(OutputNodes[OutputNodes.Count - 1], OutputNodes[0]);
         }
 
         public virtual Node FindMinimalPath(Node sourceNode, Node firstNode)

@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace TSP
 {
-    class GraspNn : NearestNeighbour
+    class NearestNeighbourGrasp : NearestNeighbour
     {
-        public GraspNn( List<Node> nodes ) : base(nodes) { }
+        public NearestNeighbourGrasp( List<Node> nodes ) : base(nodes) { }
 
         public override Node FindNearestNeighbour(Node sourceNode)
         {

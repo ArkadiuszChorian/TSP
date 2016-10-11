@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TSP
 {
-    class GraspGc : GreedyCycle
+    class GreedyCycleGrasp : GreedyCycle
     {
-        public GraspGc(List<Node> nodes) : base(nodes) { }
+        public GreedyCycleGrasp(List<Node> nodes) : base(nodes) { }
 
         public override Node FindMinimalPath(Node sourceNode, Node firstNode)
         {
