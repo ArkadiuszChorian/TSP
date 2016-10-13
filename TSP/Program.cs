@@ -54,7 +54,7 @@ namespace TSP
             DAL.Instance.WriteToFile(randomSolutionExecutionSession, Constants.RandomSolutionText);
             drawer.DrawChart(Constants.RandomSolutionFilename, randomSolutionExecutionSession.AlgorithmResultData.BestRoute);
 
-            OptimalizationAlgorithm a = new OptimalizationAlgorithm(new DataModel(DAL.Instance.AlgorithmsData[0].InputNodes, DAL.Instance.AlgorithmsData[0].OutputNodes, DAL.Instance.AlgorithmsData[0].Distance));
+            OptimalizationAlgorithm a = new OptimalizationAlgorithm(DAL.Instance.AlgorithmsData[0]);
             a.SwapPaths();
 
             DAL.Instance.CloseFileToWrite();
