@@ -8,7 +8,7 @@ namespace TSP.Algorithms.ConstructionAlgorithms
     {
         public override Node FindNearestNeighbour(Node sourceNode)
         {
-            var minimalDistanceList = new SortedDictionary< Node, int>();
+            var minimalDistanceList = new Dictionary< Node, int>();
 
             foreach ( var node in InputNodes )
             {
@@ -16,9 +16,7 @@ namespace TSP.Algorithms.ConstructionAlgorithms
                 minimalDistanceList.Add(node, distance);
             }
 
-            var kvp = minimalDistanceList.OrderBy(i => i.Value);
-            var number = RandomObject.Next(0, 2);
-            var val = kvp.ElementAt(number);
+            var val = minimalDistanceList.OrderBy(i => i.Value).ElementAt(RandomObject.Next(0, 2));
             var nearestNode = val.Key;
             var minimalDistance = val.Value;
 
