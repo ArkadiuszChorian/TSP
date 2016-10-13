@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using TSP.Algorithms.ConstructionAlgorithms;
 using TSP.Engines;
 
@@ -35,25 +32,25 @@ namespace TSP
 
             var drawer = new Drawer();
 
-            Console.WriteLine("---Nearest Neighbour---");          
-            DAL.Instance.WriteToFile(nearestNeighbourExecutionSession, "---Nearest Neighbour---");
-            drawer.DrawChart("NearestNeighbour.bmp", nearestNeighbourExecutionSession.AlgorithmResultData.BestRoute);
+            Console.WriteLine(Constants.NearestNeighbourText);          
+            DAL.Instance.WriteToFile(nearestNeighbourExecutionSession, Constants.NearestNeighbourText);
+            drawer.DrawChart(Constants.NearestNeighbourFilename, nearestNeighbourExecutionSession.AlgorithmResultData.BestRoute);
 
-            Console.WriteLine("---Greedy Cycle---");            
-            DAL.Instance.WriteToFile(greedyCycleExecutionSession, "---Greedy Cycle---");
-            drawer.DrawChart("GreedyCycle.bmp", greedyCycleExecutionSession.AlgorithmResultData.BestRoute);
+            Console.WriteLine(Constants.GreedyCycleText);            
+            DAL.Instance.WriteToFile(greedyCycleExecutionSession, Constants.GreedyCycleText);
+            drawer.DrawChart(Constants.GreedyCycleFilename, greedyCycleExecutionSession.AlgorithmResultData.BestRoute);
 
-            Console.WriteLine("---Nearest Neighbour Grasp---");            
-            DAL.Instance.WriteToFile(nearestNeighbourGraspExecutionSession, "---Nearest Neighbour Grasp---");
-            drawer.DrawChart("NearestNeighbourGrasp.bmp", nearestNeighbourGraspExecutionSession.AlgorithmResultData.BestRoute);
+            Console.WriteLine(Constants.NearestNeighboutGraspText);            
+            DAL.Instance.WriteToFile(nearestNeighbourGraspExecutionSession, Constants.NearestNeighboutGraspText);
+            drawer.DrawChart(Constants.NearestNeighbourGraspFilename, nearestNeighbourGraspExecutionSession.AlgorithmResultData.BestRoute);
 
-            Console.WriteLine("---Greedy Cycle Grasp---");            
-            DAL.Instance.WriteToFile(greedyCycleGraspExecutionSession, "---Greedy Cycle Grasp---");
-            drawer.DrawChart("GreedyCycleGrasp.bmp", greedyCycleGraspExecutionSession.AlgorithmResultData.BestRoute);
+            Console.WriteLine(Constants.GreedyCycleGraspText);            
+            DAL.Instance.WriteToFile(greedyCycleGraspExecutionSession, Constants.GreedyCycleGraspText);
+            drawer.DrawChart(Constants.GreedyCycleGraspFilename, greedyCycleGraspExecutionSession.AlgorithmResultData.BestRoute);
 
-            Console.WriteLine("---Random Solution---");            
-            DAL.Instance.WriteToFile(randomSolutionExecutionSession, "---Random Solution---");
-            drawer.DrawChart("RandomSolution.bmp", randomSolutionExecutionSession.AlgorithmResultData.BestRoute);
+            Console.WriteLine(Constants.RandomSolutionText);            
+            DAL.Instance.WriteToFile(randomSolutionExecutionSession, Constants.RandomSolutionText);
+            drawer.DrawChart(Constants.RandomSolutionFilename, randomSolutionExecutionSession.AlgorithmResultData.BestRoute);
 
             DAL.Instance.CloseFileToWrite();
           
