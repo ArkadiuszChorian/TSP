@@ -33,6 +33,7 @@ namespace TSP.Engines
                     algorithmExecutionSession.AlgorithmResultData.BestRoute = algorithmExecutionSession.Algorithm.OutputNodes.CloneList();
                 }
 
+                DAL.Instance.AlgorithmsData.Add(new DataModel(algorithmExecutionSession.Algorithm.InputNodes.CloneList(), algorithmExecutionSession.Algorithm.OutputNodes.CloneList(), algorithmExecutionSession.Algorithm.Distance));
                 algorithmExecutionSession.Algorithm.ResetAlgorithm();
             }
         }

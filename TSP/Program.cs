@@ -1,6 +1,8 @@
 ﻿using System;
 using TSP.Algorithms.ConstructionAlgorithms;
+using TSP.Algorithms.OptimalizationAlgorithms;
 using TSP.Engines;
+using TSP.Models;
 
 namespace TSP
 {
@@ -51,6 +53,9 @@ namespace TSP
             Console.WriteLine(Constants.RandomSolutionText);            
             DAL.Instance.WriteToFile(randomSolutionExecutionSession, Constants.RandomSolutionText);
             drawer.DrawChart(Constants.RandomSolutionFilename, randomSolutionExecutionSession.AlgorithmResultData.BestRoute);
+
+            OptimalizationAlgorithm a = new OptimalizationAlgorithm(new DataModel(DAL.Instance.AlgorithmsData[0].InputNodes, DAL.Instance.AlgorithmsData[0].OutputNodes, DAL.Instance.AlgorithmsData[0].Distance));
+            a.SwapPaths();
 
             DAL.Instance.CloseFileToWrite();
           

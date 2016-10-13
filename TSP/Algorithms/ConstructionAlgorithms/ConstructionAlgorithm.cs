@@ -5,9 +5,9 @@ using TSP.Models;
 
 namespace TSP.Algorithms.ConstructionAlgorithms
 {
-    internal class ConstructionAlgorithm : IAlgorithm
+    internal abstract class ConstructionAlgorithm : IAlgorithm
     {
-        public ConstructionAlgorithm()
+        protected ConstructionAlgorithm()
         {
             ClonedNodes = DAL.Instance.Nodes.CloneList();           
             InputNodes = ClonedNodes.CloneList();

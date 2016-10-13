@@ -13,6 +13,7 @@ namespace TSP
         private DAL(){}
 
         public IList<Node> Nodes { get; set; } = new List<Node>();
+        public IList<DataModel> AlgorithmsData { get; set; } = new List<DataModel>();
         public StreamWriter StreamWriter { get; set; }
         public void ReadFromFile()
         {
