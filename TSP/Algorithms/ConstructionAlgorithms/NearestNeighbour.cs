@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace TSP
 {
-    class NearestNeighbour : Algorithm
+    class NearestNeighbour : ConstructionAlgorithm
     {
-        public NearestNeighbour(IList<Node> nodes) : base(nodes) { }
+        //public NearestNeighbour() : base() { }
 
         public override void FindRoute(Node startNode)
         {
             var actualNode = startNode;
 
-            for (var i = 0; i < OutputNodesLimit; i++)
+            for (var i = 0; i < ResultNodesLimit; i++)
             {
                 OutputNodes.Add(actualNode);
                 InputNodes.Remove(actualNode);
                 actualNode = FindNearestNeighbour(actualNode);
             }
-            Distance += CalculateDistance(OutputNodes[OutputNodes.Count - 1],
-                OutputNodes[0]);
+            Distance += CalculateDistance(OutputNodes.Last(), OutputNodes.First());
         }
 
         public virtual Node FindNearestNeighbour(Node sourceNode)

@@ -1,23 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace TSP
 {
-    class GreedyCycle : Algorithm
+    class GreedyCycle : ConstructionAlgorithm
     {
-        public GreedyCycle(IList<Node> nodes) : base(nodes) { }
+        //public GreedyCycle(IList<Node> nodes) : base(nodes) { }
 
         public override void FindRoute(Node startNode)
         {
             var actualNode = startNode;
 
-            for (var i = 0; i < OutputNodesLimit; i++)
+            for (var i = 0; i < ResultNodesLimit; i++)
             {
                 OutputNodes.Add(actualNode);
                 InputNodes.Remove(actualNode);
-                actualNode = FindMinimalPath(actualNode, OutputNodes[0]);
+                actualNode = FindMinimalPath(actualNode, OutputNodes.First());
             }
 
-            Distance += CalculateDistance(OutputNodes[OutputNodes.Count - 1], OutputNodes[0]);
+            Distance += CalculateDistance(OutputNodes.Last(), OutputNodes.First());
         }
 
         public virtual Node FindMinimalPath(Node sourceNode, Node firstNode)

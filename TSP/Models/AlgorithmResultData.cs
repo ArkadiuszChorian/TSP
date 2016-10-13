@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace TSP
 {
-    class Data
+    class AlgorithmResultData
     {
-        public int AccumulatedDistance{ get; set; }
-        public int MaximumDistance { get; set; }
+        public int AccumulatedDistance { get; set; } = 0;
+        public int MaximumDistance { get; set; } = 0;
         public int MinimumDistance { get; set; } = int.MaxValue;
         public IList<Node> BestRoute { get; set; } = new List<Node>();
     }

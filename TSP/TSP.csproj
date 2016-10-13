@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
@@ -44,22 +45,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithm.cs" />
-    <Compile Include="Data.cs" />
+    <Compile Include="Algorithms\ConstructionAlgorithms\RandomSolution.cs" />
+    <Compile Include="Models\AlgorithmExecutionSession.cs" />
+    <Compile Include="Algorithms\ConstructionAlgorithms\ConstructionAlgorithm.cs" />
+    <Compile Include="Models\AlgorithmResultData.cs" />
     <Compile Include="Drawer.cs" />
-    <Compile Include="GreedyCycleGrasp.cs" />
-    <Compile Include="NearestNeighbourGrasp.cs" />
-    <Compile Include="GreedyCycle.cs" />
-    <Compile Include="NearestNeighbour.cs" />
-    <Compile Include="Node.cs" />
+    <Compile Include="Algorithms\ConstructionAlgorithms\GreedyCycleGrasp.cs" />
+    <Compile Include="Algorithms\ConstructionAlgorithms\NearestNeighbourGrasp.cs" />
+    <Compile Include="Algorithms\ConstructionAlgorithms\GreedyCycle.cs" />
+    <Compile Include="Algorithms\ConstructionAlgorithms\NearestNeighbour.cs" />
+    <Compile Include="Models\Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="Tools.cs" />
+    <Compile Include="DAL.cs" />
+    <Compile Include="Algorithms\IAlgorithm.cs" />
+    <Compile Include="Engines\SolutionConstructionEngine.cs" />
+    <Compile Include="Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="bin\Debug\kroA100.tsp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Algorithms\OptimalizationAlgorithms\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

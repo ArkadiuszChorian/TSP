@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using TSP.SolutionConstruction.ConstructionAlgorithms;
 
 namespace TSP
 {
-    internal class Algorithm
+    internal class ConstructionAlgorithm : IAlgorithm
     {
-        public Algorithm(IList<Node> nodes)
+        public ConstructionAlgorithm()
         {
-            ClonedNodes = nodes.CloneList();
-            InputNodes = nodes.CloneList();
+            //ClonedNodes = nodes.CloneList();
+            //InputNodes = nodes.CloneList();
+            ClonedNodes = DAL.Instance.Nodes.CloneList();           
+            InputNodes = ClonedNodes.CloneList();
             OutputNodes = new List<Node>();
-            Distance = 0;
+            Distance = 0;         
         }
 
         public virtual void FindRoute(Node node) {}
@@ -37,7 +41,7 @@ namespace TSP
         public IList<Node> InputNodes { get; set; }
         public IList<Node> OutputNodes { get; set; }
         public int Distance { get; set; }
-        public const int OutputNodesLimit = 50;
+        public static readonly int ResultNodesLimit = int.Parse(ConfigurationManager.AppSettings.Get("resultNodesLimit"));
         public Random RandomObject { get; set; } = new Random();
     }
 }

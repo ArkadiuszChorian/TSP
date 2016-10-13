@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TSP
 {
-    public static class Tools
+    public static class Extensions
     {
         public static IList<T> CloneList<T>(this IList<T> listToClone) where T : ICloneable
         {
