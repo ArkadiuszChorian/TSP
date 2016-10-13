@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TSP.Models;
 
-namespace TSP
+namespace TSP.Algorithms.ConstructionAlgorithms
 {
     class GreedyCycleGrasp : GreedyCycle
     {
-        //public GreedyCycleGrasp(IList<Node> nodes) : base(nodes) { }
-
         public override Node FindMinimalPath(Node sourceNode, Node firstNode)
         {
             var minimalDistanceList = new SortedDictionary<Node, int>();

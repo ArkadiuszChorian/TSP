@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\ConstructionAlgorithms\RandomSolution.cs" />
+    <Compile Include="Engines\SolutionOptimalizationEngine.cs" />
     <Compile Include="Models\AlgorithmExecutionSession.cs" />
     <Compile Include="Algorithms\ConstructionAlgorithms\ConstructionAlgorithm.cs" />
     <Compile Include="Models\AlgorithmResultData.cs" />

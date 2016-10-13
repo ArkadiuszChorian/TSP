@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using TSP.Models;
 
-namespace TSP
+namespace TSP.Algorithms.ConstructionAlgorithms
 {
     class GreedyCycle : ConstructionAlgorithm
     {
-        //public GreedyCycle(IList<Node> nodes) : base(nodes) { }
-
         public override void FindRoute(Node startNode)
         {
             var actualNode = startNode;

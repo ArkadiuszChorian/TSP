@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TSP.Models;
 
-namespace TSP.SolutionConstruction.ConstructionAlgorithms
+namespace TSP.Algorithms
 {
     interface IAlgorithm
     {

@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 
-namespace TSP
+namespace TSP.Models
 {
     class AlgorithmResultData
     {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using TSP.Models;
 
 namespace TSP
 {
@@ -13,8 +14,6 @@ namespace TSP
 
         public IList<Node> Nodes { get; set; } = new List<Node>();
         public StreamWriter StreamWriter { get; set; }
-        //public const string InputFileName = "kroA100.tsp";
-        //public const string OutputFileName = "results.txt";
         public void ReadFromFile()
         {
             try
@@ -61,19 +60,6 @@ namespace TSP
             }
             StreamWriter.WriteLine();
         }
-        //public void WriteToFile(ConstructionAlgorithm constructionAlgorithm, AlgorithmResultData algorithmResultData, string title)
-        //{
-        //    if (StreamWriter == null) return;
-        //    StreamWriter.WriteLine(title);
-        //    StreamWriter.WriteLine("MIN: " + algorithmResultData.MinimumDistance);
-        //    StreamWriter.WriteLine("AVG: " + algorithmResultData.AccumulatedDistance / constructionAlgorithm.ClonedNodes.Count);
-        //    StreamWriter.WriteLine("MAX: " + algorithmResultData.MaximumDistance);
-        //    foreach (var nodes in algorithmResultData.BestRoute)
-        //    {
-        //        StreamWriter.Write($"{nodes.Id} ");
-        //    }
-        //    StreamWriter.WriteLine();
-        //}
 
         public void CloseFileToWrite()
         {

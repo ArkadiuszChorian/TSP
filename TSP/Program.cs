@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TSP.Algorithms.ConstructionAlgorithms;
-using TSP.SolutionConstruction;
+using TSP.Engines;
 
 namespace TSP
 {
@@ -55,64 +55,9 @@ namespace TSP
             DAL.Instance.WriteToFile(randomSolutionExecutionSession, "---Random Solution---");
             drawer.DrawChart("RandomSolution.bmp", randomSolutionExecutionSession.AlgorithmResultData.BestRoute);
 
-            //var repository = new DAL();
-            //repository.ReadFromFile();            
-            //repository.PrepareFileToWrite();          
-
-            //Console.WriteLine("---Nearest Neighbour---");
-            //var nearestNeighbour = new NearestNeighbour(repository.Nodes);
-            //var nearestNeighbourData = GetData(nearestNeighbour);
-            //var drawer = new Drawer(repository.Nodes);
-            //repository.WriteToFile(nearestNeighbour, nearestNeighbourData, "---Nearest Neighbour---");
-            //drawer.DrawChart("NearestNeighbour.bmp", repository.Nodes, nearestNeighbourData.BestRoute);
-
-            //Console.WriteLine("---Greedy Cycle---");
-            //var greedyCycle = new GreedyCycle(repository.Nodes);
-            //var greedyCycleData = GetData(greedyCycle);
-            //repository.WriteToFile(greedyCycle, greedyCycleData, "---Greedy Cycle---");
-            //drawer.DrawChart("GreedyCycle.bmp", repository.Nodes, greedyCycleData.BestRoute);
-
-            //Console.WriteLine("---Grasp Nearest Neighbour---");
-            //var nearestNeighbourGrasp = new NearestNeighbourGrasp(repository.Nodes);
-            //var nearestNeighbourGraspData = GetData(nearestNeighbourGrasp);
-            //repository.WriteToFile(nearestNeighbourGrasp, nearestNeighbourGraspData, "---Nearest Neighbour Grasp---");
-            //drawer.DrawChart("GraspNN.bmp", repository.Nodes, nearestNeighbourGraspData.BestRoute);
-
-            //Console.WriteLine("---Grasp Greedy Cycle---");
-            //var greedyCycleGrasp = new GreedyCycleGrasp(repository.Nodes);
-            //var greedyCycleGraspData = GetData(greedyCycleGrasp);
-            //repository.WriteToFile(greedyCycleGrasp, greedyCycleGraspData, "---Greedy Cycle Grasp---");
-            //drawer.DrawChart("GraspGC.bmp", repository.Nodes, greedyCycleGraspData.BestRoute);
-
-            //repository.CloseFileToWrite();
             DAL.Instance.CloseFileToWrite();
           
             Console.ReadKey();
         }
-
-        //private static AlgorithmResultData GetData(ConstructionAlgorithm constructionAlgorithm)
-        //{
-        //    var data = new AlgorithmResultData();
-        //    for ( var i = 0; i < constructionAlgorithm.ClonedNodes.Count; i++ )
-        //    {
-        //        constructionAlgorithm.FindRoute(constructionAlgorithm.InputNodes[i]);
-        //        data.AccumulatedDistance += constructionAlgorithm.Distance;
-
-        //        if ( constructionAlgorithm.Distance > data.MaximumDistance )
-        //        {
-        //            data.MaximumDistance = constructionAlgorithm.Distance;
-        //        }
-
-        //        if ( constructionAlgorithm.Distance < data.MinimumDistance )
-        //        {
-        //            data.MinimumDistance = constructionAlgorithm.Distance;
-        //            data.BestRoute = constructionAlgorithm.OutputNodes.CloneList();
-        //        }
-
-        //        constructionAlgorithm.ResetAlgorithm();
-        //    }         
-                                                  
-        //    return data;
-        //}
     }
 }

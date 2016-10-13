@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using TSP.SolutionConstruction.ConstructionAlgorithms;
+using TSP.Models;
 
-namespace TSP
+namespace TSP.Algorithms.ConstructionAlgorithms
 {
     internal class ConstructionAlgorithm : IAlgorithm
     {
         public ConstructionAlgorithm()
         {
-            //ClonedNodes = nodes.CloneList();
-            //InputNodes = nodes.CloneList();
             ClonedNodes = DAL.Instance.Nodes.CloneList();           
             InputNodes = ClonedNodes.CloneList();
             OutputNodes = new List<Node>();

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TSP
+namespace TSP.Models
 {
     class Node : IComparable, ICloneable
     {

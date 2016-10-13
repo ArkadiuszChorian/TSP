@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using TSP.SolutionConstruction.ConstructionAlgorithms;
+using TSP.Models;
 
-namespace TSP.SolutionConstruction
+namespace TSP.Engines
 {
     class SolutionConstructionEngine
     {

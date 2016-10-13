@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using TSP.Models;
 
-namespace TSP
+namespace TSP.Algorithms.ConstructionAlgorithms
 {
     class NearestNeighbourGrasp : NearestNeighbour
     {
-        //public NearestNeighbourGrasp(IList<Node> nodes ) : base(nodes) { }
-
         public override Node FindNearestNeighbour(Node sourceNode)
         {
             var minimalDistanceList = new SortedDictionary< Node, int>();
