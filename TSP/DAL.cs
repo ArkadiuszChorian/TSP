@@ -60,6 +60,18 @@ namespace TSP
                 StreamWriter.Write($"{nodes.Id} ");
             }
             StreamWriter.WriteLine();
+            StreamWriter.WriteLine("---After Optimalization---");
+            StreamWriter.WriteLine("MIN: " + algorithmExecutionSession.OptimalizationStatisticsData.MinimumDistance);
+            StreamWriter.WriteLine("AVG: " + algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedDistance / Nodes.Count);
+            StreamWriter.WriteLine("MAX: " + algorithmExecutionSession.OptimalizationStatisticsData.MaximumDistance);
+            StreamWriter.WriteLine("MINT: " + algorithmExecutionSession.OptimalizationStatisticsData.MinimumExecutionTime);
+            StreamWriter.WriteLine("AVGT: " + (double)algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedExecutionTime / Nodes.Count);
+            StreamWriter.WriteLine("MAXT: " + algorithmExecutionSession.OptimalizationStatisticsData.MaximumExecutionTime);
+            foreach (var nodes in algorithmExecutionSession.OptimalizationStatisticsData.BestRoute)
+            {
+                StreamWriter.Write($"{nodes.Id} ");
+            }
+            StreamWriter.WriteLine();
         }
 
         public void CloseFileToWrite()

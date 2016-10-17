@@ -9,8 +9,8 @@ namespace TSP.Models
     class AlgorithmOperatingData
     {
         //public IList<Node> ClonedNodes { get; set; }
-        public IList<Node> UnusedNodes { get; set; }
-        public IList<Node> PathNodes { get; set; }
+        public IList<Node> UnusedNodes { get; set; } = new List<Node>();
+        public IList<Node> PathNodes { get; set; } = new List<Node>();
         public int Distance { get; set; }
 
         public AlgorithmOperatingData CloneData()

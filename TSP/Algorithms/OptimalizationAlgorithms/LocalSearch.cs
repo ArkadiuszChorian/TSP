@@ -20,16 +20,18 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
         private void CheckSwapPaths(int firstIndex, int secondIndex)
         {
             //if ((firstIndex == secondIndex) || ((firstIndex + 1) == secondIndex) || (firstIndex == (secondIndex + 1))) return false;
-            //var changeMade = false;            
+            //var changeMade = false;                      
 
             var totalDistance = OperatingData.Distance;
 
             var oldDistance1 = CalculateDistance(OperatingData.PathNodes[firstIndex], OperatingData.PathNodes[firstIndex + 1]);
-            var oldDistance2 = CalculateDistance(OperatingData.PathNodes[secondIndex], OperatingData.PathNodes[secondIndex + 1]);
+            var oldDistance2 = CalculateDistance(OperatingData.PathNodes[secondIndex], 
+                OperatingData.PathNodes[secondIndex >= OperatingData.PathNodes.Count - 1 ? 0 : secondIndex + 1]);
             totalDistance -= (oldDistance1 + oldDistance2);
 
             var newDistance1 = CalculateDistance(OperatingData.PathNodes[firstIndex], OperatingData.PathNodes[secondIndex]);
-            var newDistance2 = CalculateDistance(OperatingData.PathNodes[firstIndex + 1], OperatingData.PathNodes[secondIndex + 1]);
+            var newDistance2 = CalculateDistance(OperatingData.PathNodes[firstIndex + 1], 
+                OperatingData.PathNodes[secondIndex >= OperatingData.PathNodes.Count - 1 ? 0 : secondIndex + 1]);
             totalDistance += (newDistance1 + newDistance2);
 
             if (totalDistance > OperatingData.Distance || totalDistance >= BestSwapPathsDistance) return;
@@ -107,6 +109,7 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
         {
             var newPath = (List<Node>)OperatingData.PathNodes;
             newPath.Reverse(SwapPathsFirstIndex + 1, Math.Abs(SwapPathsSecondIndex - SwapPathsFirstIndex));
+            OperatingData.Distance = BestSwapPathsDistance;
         }
 
         private void SwapVertices()
@@ -115,9 +118,15 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
             var oldNode = OperatingData.PathNodes[SwapVerticesPathNodeIndex];
             OperatingData.PathNodes[SwapVerticesPathNodeIndex] = newNode;
             OperatingData.UnusedNodes[SwapVerticesUnusedNodeIndex] = oldNode;
+            OperatingData.Distance = BestSwapVerticesDistance;
         }
 
-        public void FindBestSwap()
+        public override void ResetAlgorithm()
+        {
+            ChangeMade = true;
+        }
+
+        public override void Optimize()
         {
             while (ChangeMade)
             {

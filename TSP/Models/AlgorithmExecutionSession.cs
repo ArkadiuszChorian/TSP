@@ -13,7 +13,7 @@ namespace TSP.Models
         public AlgorithmExecutionSession(ConstructionAlgorithm constructionAlgorithm, OptimalizationAlgorithm optimalizationAlgorithm)
         {
             ConstructionAlgorithm = constructionAlgorithm;
-            optimalizationAlgorithm = OptimalizationAlgorithm;
+            OptimalizationAlgorithm = optimalizationAlgorithm;
             ConstructionStatisticsData = new ConstructionStatisticsData();
             OptimalizationStatisticsData = new OptimalizationStatisticsData();
         }

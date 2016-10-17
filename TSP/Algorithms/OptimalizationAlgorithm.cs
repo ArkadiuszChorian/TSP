@@ -5,7 +5,7 @@ using TSP.Models;
 
 namespace TSP.Algorithms
 {
-    class OptimalizationAlgorithm : Algorithm
+    abstract class OptimalizationAlgorithm : Algorithm
     {
         //public AlgorithmOperatingData OperatingData { get; set; }
 
@@ -16,10 +16,12 @@ namespace TSP.Algorithms
         //    // Temporary solution for accessing variable from OutputNodes[50]
         //    //OperatingData.PathNodes.Add(OperatingData.PathNodes.First());
         //}
-        public void ResetAlgorithm(AlgorithmOperatingData initialOperatingData)
-        {
+        public abstract void ResetAlgorithm();
+        //{
             //OperatingData.UnusedNodes = OperatingData.ClonedNodes.CloneList();
-            OperatingData = initialOperatingData.CloneData();
-        }
+            //OperatingData = initialOperatingData.CloneData();
+        //}
+
+        public abstract void Optimize();
     }
 }

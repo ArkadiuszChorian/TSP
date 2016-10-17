@@ -19,5 +19,13 @@ namespace TSP
         public static string GreedyCycleFilename = "GreedyCycle.bmp";
         public static string GreedyCycleGraspFilename = "GreedyCycleGrasp.bmp";
         public static string RandomSolutionFilename = "RandomSolution.bmp";
+
+        public static string NearestNeighbourOptimalizedFilename = "NearestNeighbourOptimalized.bmp";
+        public static string NearestNeighbourGraspOptimalizedFilename = "NearestNeighbourGraspOptimalized.bmp";
+        public static string GreedyCycleOptimalizedFilename = "GreedyCycleOptimalized.bmp";
+        public static string GreedyCycleGraspOptimalizedFilename = "GreedyCycleGraspOptimalized.bmp";
+        public static string RandomSolutionOptimalizedFilename = "RandomSolutionOptimalized.bmp";
+
+        public static int licznik = 0;
     }
 }

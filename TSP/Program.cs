@@ -50,27 +50,38 @@ namespace TSP
             Console.WriteLine(Constants.NearestNeighbourText);          
             DAL.Instance.WriteToFile(nearestNeighbourExecutionSession, Constants.NearestNeighbourText);
             drawer.DrawChart(Constants.NearestNeighbourFilename, nearestNeighbourExecutionSession.ConstructionStatisticsData.BestRoute);
+            //DAL.Instance.WriteToFile(nearestNeighbourExecutionSession, Constants.NearestNeighbourText);
+            drawer.DrawChart(Constants.NearestNeighbourOptimalizedFilename, nearestNeighbourExecutionSession.OptimalizationStatisticsData.BestRoute);
 
             Console.WriteLine(Constants.GreedyCycleText);            
             DAL.Instance.WriteToFile(greedyCycleExecutionSession, Constants.GreedyCycleText);
             drawer.DrawChart(Constants.GreedyCycleFilename, greedyCycleExecutionSession.ConstructionStatisticsData.BestRoute);
+            //DAL.Instance.WriteToFile(greedyCycleExecutionSession, Constants.GreedyCycleText);
+            drawer.DrawChart(Constants.GreedyCycleOptimalizedFilename, greedyCycleExecutionSession.OptimalizationStatisticsData.BestRoute);
 
             Console.WriteLine(Constants.NearestNeighboutGraspText);            
             DAL.Instance.WriteToFile(nearestNeighbourGraspExecutionSession, Constants.NearestNeighboutGraspText);
             drawer.DrawChart(Constants.NearestNeighbourGraspFilename, nearestNeighbourGraspExecutionSession.ConstructionStatisticsData.BestRoute);
+            //DAL.Instance.WriteToFile(nearestNeighbourGraspExecutionSession, Constants.NearestNeighboutGraspText);
+            drawer.DrawChart(Constants.NearestNeighbourGraspOptimalizedFilename, nearestNeighbourGraspExecutionSession.OptimalizationStatisticsData.BestRoute);
 
             Console.WriteLine(Constants.GreedyCycleGraspText);            
             DAL.Instance.WriteToFile(greedyCycleGraspExecutionSession, Constants.GreedyCycleGraspText);
             drawer.DrawChart(Constants.GreedyCycleGraspFilename, greedyCycleGraspExecutionSession.ConstructionStatisticsData.BestRoute);
+            //DAL.Instance.WriteToFile(greedyCycleGraspExecutionSession, Constants.GreedyCycleGraspText);
+            drawer.DrawChart(Constants.GreedyCycleGraspOptimalizedFilename, greedyCycleGraspExecutionSession.OptimalizationStatisticsData.BestRoute);
 
             Console.WriteLine(Constants.RandomSolutionText);            
             DAL.Instance.WriteToFile(randomSolutionExecutionSession, Constants.RandomSolutionText);
             drawer.DrawChart(Constants.RandomSolutionFilename, randomSolutionExecutionSession.ConstructionStatisticsData.BestRoute);
+            //DAL.Instance.WriteToFile(randomSolutionExecutionSession, Constants.RandomSolutionText);
+            drawer.DrawChart(Constants.RandomSolutionOptimalizedFilename, randomSolutionExecutionSession.OptimalizationStatisticsData.BestRoute);
 
             //OptimalizationAlgorithm a = new OptimalizationAlgorithm(DAL.Instance.AlgorithmsData[0]);
             //a.SwapPaths();
 
             DAL.Instance.CloseFileToWrite();
+            Console.WriteLine(Constants.licznik);
           
             Console.ReadKey();
         }
