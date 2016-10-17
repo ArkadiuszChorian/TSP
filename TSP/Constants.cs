@@ -25,7 +25,5 @@ namespace TSP
         public static string GreedyCycleOptimalizedFilename = "GreedyCycleOptimalized.bmp";
         public static string GreedyCycleGraspOptimalizedFilename = "GreedyCycleGraspOptimalized.bmp";
         public static string RandomSolutionOptimalizedFilename = "RandomSolutionOptimalized.bmp";
-
-        public static int licznik = 0;
     }
 }

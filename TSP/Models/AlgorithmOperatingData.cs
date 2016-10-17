@@ -8,18 +8,12 @@ namespace TSP.Models
 {
     class AlgorithmOperatingData
     {
-        //public IList<Node> ClonedNodes { get; set; }
         public IList<Node> UnusedNodes { get; set; } = new List<Node>();
         public IList<Node> PathNodes { get; set; } = new List<Node>();
         public int Distance { get; set; }
 
         public AlgorithmOperatingData CloneData()
         {
-            //var clonedOperatingData = new AlgorithmOperatingData();
-            //clonedOperatingData.UnusedNodes = UnusedNodes.CloneList();
-            //clonedOperatingData.PathNodes = PathNodes.CloneList();
-            //clonedOperatingData.Distance = Distance;
-
             return new AlgorithmOperatingData
             {
                 UnusedNodes = UnusedNodes.CloneList(),
@@ -27,12 +21,5 @@ namespace TSP.Models
                 Distance = Distance
             };
         }
-
-        //public AlgorithmOperatingData(IList<Node> unusedNodes, IList<Node> pathNodes, int distance)
-        //{
-        //    UnusedNodes = unusedNodes;
-        //    PathNodes = pathNodes;
-        //    Distance = distance;
-        //}
     }   
 }

@@ -5,11 +5,6 @@ namespace TSP.Models
 {
     class AlgorithmExecutionSession
     {
-        //public AlgorithmExecutionSession(Type algorithmType)
-        //{
-        //    Algorithm = (ConstructionAlgorithm) Activator.CreateInstance(algorithmType);
-        //    ConstructionStatisticsData = new ConstructionStatisticsData();
-        //}
         public AlgorithmExecutionSession(ConstructionAlgorithm constructionAlgorithm, OptimalizationAlgorithm optimalizationAlgorithm)
         {
             ConstructionAlgorithm = constructionAlgorithm;

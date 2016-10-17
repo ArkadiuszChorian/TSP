@@ -19,9 +19,6 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
 
         private void CheckSwapPaths(int firstIndex, int secondIndex)
         {
-            //if ((firstIndex == secondIndex) || ((firstIndex + 1) == secondIndex) || (firstIndex == (secondIndex + 1))) return false;
-            //var changeMade = false;                      
-
             var totalDistance = OperatingData.Distance;
 
             var oldDistance1 = CalculateDistance(OperatingData.PathNodes[firstIndex], OperatingData.PathNodes[firstIndex + 1]);
@@ -39,13 +36,6 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
             SwapPathsFirstIndex = firstIndex;
             SwapPathsSecondIndex = secondIndex;
             ChangeMade = true;
-
-            //Console.WriteLine(totalDistance);
-            //OperatingData.Distance = totalDistance;
-            //changeMade = true;
-            //var newList = (List<Node>)OperatingData.PathNodes;
-            //newList.Reverse(firstIndex + 1, Math.Abs(secondIndex - firstIndex));
-            //return true;
         }
 
         private void FindBestSwapPaths()
@@ -54,20 +44,7 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
             {
                 for (var j = i + 2; j < OperatingData.PathNodes.Count; j++)
                 {
-                    //if ((i == j) || (i + 1 == j) || (i == j + 1)) continue;
-                    //if (i >= OperatingData.PathNodes.Count)
-                    //{
-                    //    i = 0 + (i - OperatingData.PathNodes.Count);
-                    //}
                     if (i == 0 && j == OperatingData.PathNodes.Count - 1) continue;
-
-                    //if (j >= OperatingData.PathNodes.Count)
-                    //{
-                    //    CheckSwapPaths(i, 0 + (j - OperatingData.PathNodes.Count));
-                    //    continue;                       
-                    //    //j = 0 + (j - OperatingData.PathNodes.Count);
-                    //}
-
                     CheckSwapPaths(i, j);
                 }
             }
