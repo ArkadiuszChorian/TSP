@@ -101,6 +101,8 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
         public override void ResetAlgorithm()
         {
             ChangeMade = true;
+            BestSwapPathsDistance = int.MaxValue;
+            BestSwapVerticesDistance = int.MaxValue;
         }
 
         public override void Optimize()
