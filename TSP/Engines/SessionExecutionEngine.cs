@@ -32,7 +32,6 @@ namespace TSP.Engines
                 Timer.Reset();
                 algorithmExecutionSession.ConstructionAlgorithm.ResetAlgorithm();
                 algorithmExecutionSession.OptimalizationAlgorithm.ResetAlgorithm();
-                Console.Write("x");
             }
         }
 

@@ -35,7 +35,6 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
             BestSwapPathsDistance = totalDistance;
             SwapPathsFirstIndex = firstIndex;
             SwapPathsSecondIndex = secondIndex;
-            ChangeMade = true;
         }
 
         private void FindBestSwapPaths()
@@ -68,7 +67,6 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
             BestSwapVerticesDistance = totalDistance;
             SwapVerticesPathNodeIndex = pathNodeIndex;
             SwapVerticesUnusedNodeIndex = unusedNodeIndex;
-            ChangeMade = true;
         }
 
         private void FindBestSwapVertices()
@@ -115,12 +113,13 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
                 if (!ChangeMade) continue;
                 if (BestSwapPathsDistance <= BestSwapVerticesDistance)
                 {
-                    SwapPaths();
+                    SwapPaths();                   
                 }
                 else
                 {
                     SwapVertices();
                 }
+                ChangeMade = true;
             }
         }
 
