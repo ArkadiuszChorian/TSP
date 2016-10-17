@@ -11,17 +11,17 @@ namespace TSP.Algorithms.ConstructionAlgorithms
 
             for (var i = 0; i < ResultNodesLimit; i++)
             {
-                OutputNodes.Add(actualNode);
-                InputNodes.Remove(actualNode);
+                OperatingData.PathNodes.Add(actualNode);
+                OperatingData.UnusedNodes.Remove(actualNode);
                 actualNode = FindRandomNeighbour(actualNode);
             }
-            Distance += CalculateDistance(OutputNodes.Last(), OutputNodes.First());
+            OperatingData.Distance += CalculateDistance(OperatingData.PathNodes.Last(), OperatingData.PathNodes.First());
         }
 
         public Node FindRandomNeighbour(Node sourceNode)
         {
-            var randomNode = InputNodes[RandomObject.Next(0, InputNodes.Count - 1)];
-            Distance += CalculateDistance(sourceNode, randomNode);
+            var randomNode = OperatingData.UnusedNodes[RandomGenerator.Next(0, OperatingData.UnusedNodes.Count - 1)];
+            OperatingData.Distance += CalculateDistance(sourceNode, randomNode);
 
             return randomNode;
         }

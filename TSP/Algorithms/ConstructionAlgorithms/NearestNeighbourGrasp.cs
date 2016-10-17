@@ -6,21 +6,21 @@ namespace TSP.Algorithms.ConstructionAlgorithms
 {
     class NearestNeighbourGrasp : NearestNeighbour
     {
-        public override Node FindNearestNeighbour(Node sourceNode)
+        protected override Node FindNearestNeighbour(Node sourceNode)
         {
             var minimalDistanceList = new Dictionary< Node, int>();
 
-            foreach ( var node in InputNodes )
+            foreach ( var node in OperatingData.UnusedNodes )
             {
                 var distance = CalculateDistance(sourceNode, node);
                 minimalDistanceList.Add(node, distance);
             }
 
-            var val = minimalDistanceList.OrderBy(i => i.Value).ElementAt(RandomObject.Next(0, 2));
+            var val = minimalDistanceList.OrderBy(i => i.Value).ElementAt(RandomGenerator.Next(0, 2));
             var nearestNode = val.Key;
             var minimalDistance = val.Value;
 
-            Distance += minimalDistance;
+            OperatingData.Distance += minimalDistance;
 
             return nearestNode;
         }

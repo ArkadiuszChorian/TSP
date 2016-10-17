@@ -6,21 +6,21 @@ namespace TSP.Algorithms.ConstructionAlgorithms
 {
     class GreedyCycleGrasp : GreedyCycle
     {
-        public override Node FindMinimalPath(Node sourceNode, Node firstNode)
+        protected override Node FindMinimalPath(Node sourceNode, Node firstNode)
         {
             var minimalDistanceList = new Dictionary<Node, int>();
 
-            foreach ( var node in InputNodes )
+            foreach ( var node in OperatingData.UnusedNodes )
             {
-                var path = CalculatePath(Distance, sourceNode, node, firstNode);
+                var path = CalculatePath(OperatingData.Distance, sourceNode, node, firstNode);
                 minimalDistanceList.Add(node, path);
             }
             
-            var kvp = minimalDistanceList.OrderBy(i => i.Value).ElementAt(RandomObject.Next(0,2));
+            var kvp = minimalDistanceList.OrderBy(i => i.Value).ElementAt(RandomGenerator.Next(0,2));
             var bestFoundNode = kvp.Key;
             var minimalPath = kvp.Value;
 
-            Distance = minimalPath - CalculateDistance(firstNode, bestFoundNode);
+            OperatingData.Distance = minimalPath - CalculateDistance(firstNode, bestFoundNode);
 
             return bestFoundNode;
         }

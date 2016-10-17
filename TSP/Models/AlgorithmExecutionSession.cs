@@ -5,12 +5,21 @@ namespace TSP.Models
 {
     class AlgorithmExecutionSession
     {
-        public AlgorithmExecutionSession(Type algorithmType)
+        //public AlgorithmExecutionSession(Type algorithmType)
+        //{
+        //    Algorithm = (ConstructionAlgorithm) Activator.CreateInstance(algorithmType);
+        //    ConstructionStatisticsData = new ConstructionStatisticsData();
+        //}
+        public AlgorithmExecutionSession(ConstructionAlgorithm constructionAlgorithm, OptimalizationAlgorithm optimalizationAlgorithm)
         {
-            Algorithm = (IAlgorithm) Activator.CreateInstance(algorithmType);
-            AlgorithmResultData = new AlgorithmResultData();
+            ConstructionAlgorithm = constructionAlgorithm;
+            optimalizationAlgorithm = OptimalizationAlgorithm;
+            ConstructionStatisticsData = new ConstructionStatisticsData();
+            OptimalizationStatisticsData = new OptimalizationStatisticsData();
         }
-        public IAlgorithm Algorithm { get; set; }
-        public AlgorithmResultData AlgorithmResultData { get; set; }
+        public ConstructionAlgorithm ConstructionAlgorithm { get; set; }
+        public OptimalizationAlgorithm OptimalizationAlgorithm { get; set; }
+        public ConstructionStatisticsData ConstructionStatisticsData { get; set; }
+        public OptimalizationStatisticsData OptimalizationStatisticsData { get; set; }
     }
 }

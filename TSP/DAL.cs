@@ -13,7 +13,7 @@ namespace TSP
         private DAL(){}
 
         public IList<Node> Nodes { get; set; } = new List<Node>();
-        public IList<DataModel> AlgorithmsData { get; set; } = new List<DataModel>();
+        public IList<AlgorithmOperatingData> AlgorithmsData { get; set; } = new List<AlgorithmOperatingData>();
         public StreamWriter StreamWriter { get; set; }
         public void ReadFromFile()
         {
@@ -52,10 +52,10 @@ namespace TSP
         {
             if (StreamWriter == null) return;
             StreamWriter.WriteLine(title);
-            StreamWriter.WriteLine("MIN: " + algorithmExecutionSession.AlgorithmResultData.MinimumDistance);
-            StreamWriter.WriteLine("AVG: " + algorithmExecutionSession.AlgorithmResultData.AccumulatedDistance / algorithmExecutionSession.Algorithm.ClonedNodes.Count);
-            StreamWriter.WriteLine("MAX: " + algorithmExecutionSession.AlgorithmResultData.MaximumDistance);
-            foreach (var nodes in algorithmExecutionSession.AlgorithmResultData.BestRoute)
+            StreamWriter.WriteLine("MIN: " + algorithmExecutionSession.ConstructionStatisticsData.MinimumDistance);
+            StreamWriter.WriteLine("AVG: " + algorithmExecutionSession.ConstructionStatisticsData.AccumulatedDistance / Nodes.Count);
+            StreamWriter.WriteLine("MAX: " + algorithmExecutionSession.ConstructionStatisticsData.MaximumDistance);
+            foreach (var nodes in algorithmExecutionSession.ConstructionStatisticsData.BestRoute)
             {
                 StreamWriter.Write($"{nodes.Id} ");
             }

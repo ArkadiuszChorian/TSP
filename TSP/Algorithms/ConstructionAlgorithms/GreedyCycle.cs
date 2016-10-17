@@ -11,23 +11,28 @@ namespace TSP.Algorithms.ConstructionAlgorithms
 
             for (var i = 0; i < ResultNodesLimit; i++)
             {
-                OutputNodes.Add(actualNode);
-                InputNodes.Remove(actualNode);
-                actualNode = FindMinimalPath(actualNode, OutputNodes.First());
+                OperatingData.PathNodes.Add(actualNode);
+                OperatingData.UnusedNodes.Remove(actualNode);
+                actualNode = FindMinimalPath(actualNode, OperatingData.PathNodes.First());
             }
 
-            Distance += CalculateDistance(OutputNodes.Last(), OutputNodes.First());
+            OperatingData.Distance += CalculateDistance(OperatingData.PathNodes.Last(), OperatingData.PathNodes.First());
         }
 
-        public virtual Node FindMinimalPath(Node sourceNode, Node firstNode)
+        protected int CalculatePath(int distance, Node node1, Node node2, Node startNode)
+        {
+            return distance + CalculateDistance(node1, node2) + CalculateDistance(node2, startNode);
+        }
+
+        protected virtual Node FindMinimalPath(Node sourceNode, Node firstNode)
         {
             var minimalPath = int.MaxValue;
             Node bestFoundNode = null;
 
-            foreach (var node in InputNodes)
+            foreach (var node in OperatingData.UnusedNodes)
             {
                 // Calculating whole closed path
-                var path = CalculatePath(Distance, sourceNode, node, firstNode);
+                var path = CalculatePath(OperatingData.Distance, sourceNode, node, firstNode);
                 if (minimalPath <= path) continue;
                 minimalPath = path;
                 bestFoundNode = node;
@@ -35,7 +40,7 @@ namespace TSP.Algorithms.ConstructionAlgorithms
 
             // Deleting last connection from Distance (for first node algorithm double
             // first disance and then subtracts it)
-            Distance = minimalPath - CalculateDistance(firstNode, bestFoundNode);
+            OperatingData.Distance = minimalPath - CalculateDistance(firstNode, bestFoundNode);
 
             return bestFoundNode;
         }

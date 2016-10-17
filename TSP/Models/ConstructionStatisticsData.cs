@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace TSP.Models
 {
-    class AlgorithmResultData
+    class ConstructionStatisticsData
     {
         public int AccumulatedDistance { get; set; } = 0;
         public int MaximumDistance { get; set; } = 0;

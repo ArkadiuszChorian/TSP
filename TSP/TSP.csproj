@@ -46,24 +46,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\ConstructionAlgorithms\RandomSolution.cs" />
-    <Compile Include="Algorithms\OptimalizationAlgorithms\OptimalizationAlgorithm.cs" />
+    <Compile Include="Algorithms\OptimalizationAlgorithms\LocalSearch.cs" />
+    <Compile Include="Algorithms\OptimalizationAlgorithm.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Engines\SolutionOptimalizationEngine.cs" />
     <Compile Include="Models\AlgorithmExecutionSession.cs" />
-    <Compile Include="Algorithms\ConstructionAlgorithms\ConstructionAlgorithm.cs" />
-    <Compile Include="Models\AlgorithmResultData.cs" />
+    <Compile Include="Algorithms\ConstructionAlgorithm.cs" />
+    <Compile Include="Models\ConstructionStatisticsData.cs" />
     <Compile Include="Drawer.cs" />
     <Compile Include="Algorithms\ConstructionAlgorithms\GreedyCycleGrasp.cs" />
     <Compile Include="Algorithms\ConstructionAlgorithms\NearestNeighbourGrasp.cs" />
     <Compile Include="Algorithms\ConstructionAlgorithms\GreedyCycle.cs" />
     <Compile Include="Algorithms\ConstructionAlgorithms\NearestNeighbour.cs" />
-    <Compile Include="Models\DataModel.cs" />
+    <Compile Include="Models\AlgorithmOperatingData.cs" />
     <Compile Include="Models\Node.cs" />
+    <Compile Include="Models\OptimalizationStatisticsData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DAL.cs" />
-    <Compile Include="Algorithms\IAlgorithm.cs" />
-    <Compile Include="Engines\SolutionConstructionEngine.cs" />
+    <Compile Include="Algorithms\Algorithm.cs" />
+    <Compile Include="Engines\SessionExecutionEngine.cs" />
     <Compile Include="Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
