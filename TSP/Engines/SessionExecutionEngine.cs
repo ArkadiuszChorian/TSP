@@ -33,6 +33,20 @@ namespace TSP.Engines
                     algorithmExecutionSession.ConstructionStatisticsData.BestRoute = algorithmExecutionSession.ConstructionAlgorithm.OperatingData.PathNodes.CloneList();
                 }
 
+                algorithmExecutionSession.OptimalizationAlgorithm.OperatingData =
+                    algorithmExecutionSession.ConstructionAlgorithm.OperatingData.CloneData();
+                //var currentOperatingData = algorithmExecutionSession.OptimalizationAlgorithm.OperatingData.CloneData();
+                var bestOperatingData = new AlgorithmOperatingData {Distance = int.MaxValue};
+
+                var changeMade = true;
+
+                while (changeMade)
+                {
+                    changeMade = false;
+                    
+
+                }
+
                 //DAL.Instance.AlgorithmsData.Add(new AlgorithmOperatingData(algorithmExecutionSession.OptimalizationAlgorithm.OperatingData.UnusedNodes.CloneList(), algorithmExecutionSession.OptimalizationAlgorithm.OperatingData.PathNodes.CloneList(), algorithmExecutionSession.OptimalizationAlgorithm.OperatingData.Distance));
                 algorithmExecutionSession.ConstructionAlgorithm.ResetAlgorithm();
             }

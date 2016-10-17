@@ -49,7 +49,6 @@
     <Compile Include="Algorithms\OptimalizationAlgorithms\LocalSearch.cs" />
     <Compile Include="Algorithms\OptimalizationAlgorithm.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Engines\SolutionOptimalizationEngine.cs" />
     <Compile Include="Models\AlgorithmExecutionSession.cs" />
     <Compile Include="Algorithms\ConstructionAlgorithm.cs" />
     <Compile Include="Models\ConstructionStatisticsData.cs" />
