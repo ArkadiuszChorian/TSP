@@ -1,81 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TSP.Models;
 
 namespace TSP.Algorithms.OptimalizationAlgorithms
 {
     class LocalSearch : OptimalizationAlgorithm
     {
-        public int SwapPathsFirstIndex { get; set; } 
-        public int SwapPathsSecondIndex { get; set; } 
-        public int SwapVerticesPathNodeIndex { get; set; } 
+        public int SwapPathsFirstIndex { get; set; }
+        public int SwapPathsSecondIndex { get; set; }
+        public int SwapVerticesPathNodeIndex { get; set; }
         public int SwapVerticesUnusedNodeIndex { get; set; }
         public int BestSwapPathsDistance { get; set; } = int.MaxValue;
         public int BestSwapVerticesDistance { get; set; } = int.MaxValue;
-        public bool ChangeMade { get; set; } = true;
+        public bool PathsChangeMade { get; set; } = true;
+        public bool VerticesChangeMade { get; set; } = true;
 
-        private void CheckSwapPaths(int firstIndex, int secondIndex)
+        private void CheckSwapPaths( int firstIndex, int secondIndex )
         {
             var totalDistance = OperatingData.Distance;
 
             var oldDistance1 = CalculateDistance(OperatingData.PathNodes[firstIndex], OperatingData.PathNodes[firstIndex + 1]);
-            var oldDistance2 = CalculateDistance(OperatingData.PathNodes[secondIndex], 
+            var oldDistance2 = CalculateDistance(OperatingData.PathNodes[secondIndex],
                 OperatingData.PathNodes[secondIndex >= OperatingData.PathNodes.Count - 1 ? 0 : secondIndex + 1]);
-            totalDistance -= (oldDistance1 + oldDistance2);
+            totalDistance -= ( oldDistance1 + oldDistance2 );
 
             var newDistance1 = CalculateDistance(OperatingData.PathNodes[firstIndex], OperatingData.PathNodes[secondIndex]);
-            var newDistance2 = CalculateDistance(OperatingData.PathNodes[firstIndex + 1], 
+            var newDistance2 = CalculateDistance(OperatingData.PathNodes[firstIndex + 1],
                 OperatingData.PathNodes[secondIndex >= OperatingData.PathNodes.Count - 1 ? 0 : secondIndex + 1]);
-            totalDistance += (newDistance1 + newDistance2);
+            totalDistance += ( newDistance1 + newDistance2 );
 
-            if (totalDistance > OperatingData.Distance || totalDistance >= BestSwapPathsDistance) return;
+            if ( totalDistance >= OperatingData.Distance || totalDistance >= BestSwapPathsDistance ) return;
             BestSwapPathsDistance = totalDistance;
             SwapPathsFirstIndex = firstIndex;
             SwapPathsSecondIndex = secondIndex;
-            ChangeMade = true;
+            PathsChangeMade = true;
         }
 
         private void FindBestSwapPaths()
         {
-            for (var i = 0; i < OperatingData.PathNodes.Count - 2; i++)
+            for ( var i = 0; i < OperatingData.PathNodes.Count - 2; i++ )
             {
-                for (var j = i + 2; j < OperatingData.PathNodes.Count; j++)
+                for ( var j = i + 2; j < OperatingData.PathNodes.Count; j++ )
                 {
-                    if (i == 0 && j == OperatingData.PathNodes.Count - 1) continue;
+                    if ( i == 0 && j == OperatingData.PathNodes.Count - 1 ) continue;
                     CheckSwapPaths(i, j);
                 }
             }
         }
 
-        private void CheckSwapVertices(int pathNodeIndex, int unusedNodeIndex)
+        private void CheckSwapVertices( int pathNodeIndex, int unusedNodeIndex )
         {
             var totalDistance = OperatingData.Distance;
             var previousPathNodeIndex = pathNodeIndex - 1 < 0 ? OperatingData.PathNodes.Count - 1 : pathNodeIndex - 1;
             var nextPathNodeIndex = pathNodeIndex + 1 > OperatingData.PathNodes.Count - 1 ? 0 : pathNodeIndex + 1;
 
-            totalDistance -= 
-                CalculateDistance(OperatingData.PathNodes[previousPathNodeIndex], OperatingData.PathNodes[pathNodeIndex]) + 
+            totalDistance -=
+                CalculateDistance(OperatingData.PathNodes[previousPathNodeIndex], OperatingData.PathNodes[pathNodeIndex]) +
                 CalculateDistance(OperatingData.PathNodes[pathNodeIndex], OperatingData.PathNodes[nextPathNodeIndex]);
 
             totalDistance +=
                 CalculateDistance(OperatingData.PathNodes[previousPathNodeIndex], OperatingData.UnusedNodes[unusedNodeIndex]) +
                 CalculateDistance(OperatingData.UnusedNodes[unusedNodeIndex], OperatingData.PathNodes[nextPathNodeIndex]);
 
-            if (totalDistance > OperatingData.Distance || totalDistance >= BestSwapVerticesDistance) return;
+            if ( totalDistance >= OperatingData.Distance || totalDistance >= BestSwapVerticesDistance ) return;
             BestSwapVerticesDistance = totalDistance;
             SwapVerticesPathNodeIndex = pathNodeIndex;
             SwapVerticesUnusedNodeIndex = unusedNodeIndex;
-            ChangeMade = true;
+            VerticesChangeMade = true;
         }
 
         private void FindBestSwapVertices()
         {
-            for (var i = 0; i < OperatingData.PathNodes.Count; i++)
+            for ( var i = 0; i < OperatingData.PathNodes.Count; i++ )
             {
-                for (var j = 0; j < OperatingData.UnusedNodes.Count; j++)
+                for ( var j = 0; j < OperatingData.UnusedNodes.Count; j++ )
                 {
                     CheckSwapVertices(i, j);
                 }
@@ -100,63 +98,33 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
 
         public override void ResetAlgorithm()
         {
-            ChangeMade = true;
+            VerticesChangeMade = true;
+            PathsChangeMade = true;
             BestSwapPathsDistance = int.MaxValue;
             BestSwapVerticesDistance = int.MaxValue;
         }
 
         public override void Optimize()
         {
-            while (ChangeMade)
+            while ( VerticesChangeMade || PathsChangeMade )
             {
-                ChangeMade = false;
-                FindBestSwapPaths();
-                FindBestSwapVertices();
-                if (!ChangeMade) break;
-                if (BestSwapPathsDistance <= BestSwapVerticesDistance)
+                if (PathsChangeMade)
                 {
-                    SwapPaths();                   
+                    PathsChangeMade = false;
+                    FindBestSwapPaths();
                 }
-                else
+                if ( VerticesChangeMade )
                 {
+                    VerticesChangeMade = false;
+                    FindBestSwapVertices();
+                }
+                
+                if ( !VerticesChangeMade && !PathsChangeMade ) break;
+                if ( PathsChangeMade)
+                    SwapPaths();
+                else if(VerticesChangeMade)
                     SwapVertices();
-                }
-                //ChangeMade = true;
             }
         }
-
-        //public void SwapVertices()
-        //{
-        //    var changeMade = true;
-        //    while (changeMade)
-        //    {
-        //        changeMade = false;
-        //        for (var i = 0; i < OperatingData.PathNodes.Count - 1; i++)
-        //        {
-        //            for (var j = 0; j < OperatingData.PathNodes.Count - 1; j++)
-        //            {
-        //                if ((i == j) || ((i + 1) == j) || (i == (j + 1))) continue;
-
-        //                var totalDistance = OperatingData.Distance;
-
-        //                var oldDistance1 = CalculateDistance(OperatingData.PathNodes[i], OperatingData.PathNodes[i + 1]);
-        //                var oldDistance2 = CalculateDistance(OperatingData.PathNodes[j], OperatingData.PathNodes[j + 1]);
-        //                totalDistance -= (oldDistance1 + oldDistance2);
-
-        //                var newDistance1 = CalculateDistance(OperatingData.PathNodes[i], OperatingData.PathNodes[j]);
-        //                var newDistance2 = CalculateDistance(OperatingData.PathNodes[i + 1], OperatingData.PathNodes[j + 1]);
-        //                totalDistance += (newDistance1 + newDistance2);
-
-        //                if (totalDistance >= OperatingData.Distance) continue;
-
-        //                Console.WriteLine(totalDistance);
-        //                OperatingData.Distance = totalDistance;
-        //                changeMade = true;
-        //                var newList = (List<Node>)OperatingData.PathNodes;
-        //                newList.Reverse(i + 1, Math.Abs(j - i));
-        //            }
-        //        }
-        //    }
-        //}
     }
 }
