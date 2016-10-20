@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TSP.Models;
 
 namespace TSP.Algorithms.OptimalizationAlgorithms
@@ -105,7 +106,7 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
         }
 
         public override void Optimize()
-        {
+        {          
             while ( VerticesChangeMade || PathsChangeMade )
             {
                 if (PathsChangeMade)
@@ -113,16 +114,16 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
                     PathsChangeMade = false;
                     FindBestSwapPaths();
                 }
-                if ( VerticesChangeMade )
+                if (VerticesChangeMade)
                 {
                     VerticesChangeMade = false;
                     FindBestSwapVertices();
                 }
-                
+
                 if ( !VerticesChangeMade && !PathsChangeMade ) break;
-                if ( PathsChangeMade)
+                if (BestSwapPathsDistance < BestSwapVerticesDistance)
                     SwapPaths();
-                else if(VerticesChangeMade)
+                else
                     SwapVertices();
             }
         }
