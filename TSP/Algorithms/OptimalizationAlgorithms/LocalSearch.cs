@@ -15,7 +15,7 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
         public bool PathsChangeMade { get; set; } = true;
         public bool VerticesChangeMade { get; set; } = true;
 
-        private void CheckSwapPaths( int firstIndex, int secondIndex )
+        protected void CheckSwapPaths( int firstIndex, int secondIndex )
         {
             var totalDistance = OperatingData.Distance;
 
@@ -36,7 +36,7 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
             PathsChangeMade = true;
         }
 
-        private void FindBestSwapPaths()
+        protected void FindBestSwapPaths()
         {
             for ( var i = 0; i < OperatingData.PathNodes.Count - 2; i++ )
             {
@@ -48,7 +48,7 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
             }
         }
 
-        private void CheckSwapVertices( int pathNodeIndex, int unusedNodeIndex )
+        protected void CheckSwapVertices( int pathNodeIndex, int unusedNodeIndex )
         {
             var totalDistance = OperatingData.Distance;
             var previousPathNodeIndex = pathNodeIndex - 1 < 0 ? OperatingData.PathNodes.Count - 1 : pathNodeIndex - 1;
@@ -69,7 +69,7 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
             VerticesChangeMade = true;
         }
 
-        private void FindBestSwapVertices()
+        protected void FindBestSwapVertices()
         {
             for ( var i = 0; i < OperatingData.PathNodes.Count; i++ )
             {
@@ -80,14 +80,14 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
             }
         }
 
-        private void SwapPaths()
+        protected void SwapPaths()
         {
             var newPath = (List<Node>)OperatingData.PathNodes;
             newPath.Reverse(SwapPathsFirstIndex + 1, Math.Abs(SwapPathsSecondIndex - SwapPathsFirstIndex));
             OperatingData.Distance = BestSwapPathsDistance;
         }
 
-        private void SwapVertices()
+        protected void SwapVertices()
         {
             var newNode = OperatingData.UnusedNodes[SwapVerticesUnusedNodeIndex];
             var oldNode = OperatingData.PathNodes[SwapVerticesPathNodeIndex];
@@ -108,7 +108,7 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
         {
             while ( VerticesChangeMade || PathsChangeMade )
             {
-                if (PathsChangeMade)
+                if ( PathsChangeMade )
                 {
                     PathsChangeMade = false;
                     FindBestSwapPaths();
@@ -118,11 +118,11 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
                     VerticesChangeMade = false;
                     FindBestSwapVertices();
                 }
-                
+
                 if ( !VerticesChangeMade && !PathsChangeMade ) break;
-                if ( PathsChangeMade)
+                if ( BestSwapPathsDistance < BestSwapVerticesDistance )
                     SwapPaths();
-                else if(VerticesChangeMade)
+                else
                     SwapVertices();
             }
         }

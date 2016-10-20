@@ -35,6 +35,28 @@ namespace TSP.Engines
             }
         }
 
+        public void ExecuteIteratedLocalSearchSession(AlgorithmExecutionSession algorithmExecutionSession)
+        {
+            var totalNumberOfNodes = DAL.Instance.Nodes.Count;
+            var randomGenerator = new Random();
+
+            for (var i = 0; i < 10; i++)
+            {
+                algorithmExecutionSession.ConstructionAlgorithm.FindRoute(algorithmExecutionSession.ConstructionAlgorithm.OperatingData.UnusedNodes[randomGenerator.Next(0,totalNumberOfNodes)]);
+
+                UpdateConstructionStatisticsData(algorithmExecutionSession);
+
+                algorithmExecutionSession.OptimalizationAlgorithm.OperatingData =
+                    algorithmExecutionSession.ConstructionAlgorithm.OperatingData.CloneData();
+
+                algorithmExecutionSession.OptimalizationAlgorithm.Optimize();
+
+                UpdateOptimalizationStatisticsData(algorithmExecutionSession);
+                algorithmExecutionSession.ConstructionAlgorithm.ResetAlgorithm();
+                algorithmExecutionSession.OptimalizationAlgorithm.ResetAlgorithm();
+            }
+        }
+
         private void UpdateConstructionStatisticsData(AlgorithmExecutionSession algorithmExecutionSession)
         {
             algorithmExecutionSession.ConstructionStatisticsData.AccumulatedDistance += algorithmExecutionSession.ConstructionAlgorithm.OperatingData.Distance;

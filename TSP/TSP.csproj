@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\ConstructionAlgorithms\RandomSolution.cs" />
+    <Compile Include="Algorithms\OptimalizationAlgorithms\IteratedLocalSearch.cs" />
     <Compile Include="Algorithms\OptimalizationAlgorithms\LocalSearch.cs" />
     <Compile Include="Algorithms\OptimalizationAlgorithm.cs" />
     <Compile Include="Constants.cs" />

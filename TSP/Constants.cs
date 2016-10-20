@@ -8,22 +8,24 @@ namespace TSP
 {
     static class Constants
     {
-        public static string NearestNeighbourText = "---Nearest Neighbour---";
-        public static string NearestNeighboutGraspText = "---Nearest Neighbour Grasp---";
-        public static string GreedyCycleText = "---Greedy Cycle---";
-        public static string GreedyCycleGraspText = "---Greedy Cycle Grasp---";
-        public static string RandomSolutionText = "---Random Solution---";
+        public static readonly string NearestNeighbourText = "---Nearest Neighbour---";
+        public static readonly string NearestNeighboutGraspText = "---Nearest Neighbour Grasp---";
+        public static readonly string GreedyCycleText = "---Greedy Cycle---";
+        public static readonly string GreedyCycleGraspText = "---Greedy Cycle Grasp---";
+        public static readonly string RandomSolutionText = "---Random Solution---";
 
-        public static string NearestNeighbourFilename = "NearestNeighbour.bmp";
-        public static string NearestNeighbourGraspFilename = "NearestNeighbourGrasp.bmp";
-        public static string GreedyCycleFilename = "GreedyCycle.bmp";
-        public static string GreedyCycleGraspFilename = "GreedyCycleGrasp.bmp";
-        public static string RandomSolutionFilename = "RandomSolution.bmp";
+        public static readonly string NearestNeighbourFilename = "NearestNeighbour.bmp";
+        public static readonly string NearestNeighbourGraspFilename = "NearestNeighbourGrasp.bmp";
+        public static readonly string GreedyCycleFilename = "GreedyCycle.bmp";
+        public static readonly string GreedyCycleGraspFilename = "GreedyCycleGrasp.bmp";
+        public static readonly string RandomSolutionFilename = "RandomSolution.bmp";
+         
+        public static readonly string NearestNeighbourOptimalizedFilename = "NearestNeighbourOptimalized.bmp";
+        public static readonly string NearestNeighbourGraspOptimalizedFilename = "NearestNeighbourGraspOptimalized.bmp";
+        public static readonly string GreedyCycleOptimalizedFilename = "GreedyCycleOptimalized.bmp";
+        public static readonly string GreedyCycleGraspOptimalizedFilename = "GreedyCycleGraspOptimalized.bmp";
+        public static readonly string RandomSolutionOptimalizedFilename = "RandomSolutionOptimalized.bmp";
 
-        public static string NearestNeighbourOptimalizedFilename = "NearestNeighbourOptimalized.bmp";
-        public static string NearestNeighbourGraspOptimalizedFilename = "NearestNeighbourGraspOptimalized.bmp";
-        public static string GreedyCycleOptimalizedFilename = "GreedyCycleOptimalized.bmp";
-        public static string GreedyCycleGraspOptimalizedFilename = "GreedyCycleGraspOptimalized.bmp";
-        public static string RandomSolutionOptimalizedFilename = "RandomSolutionOptimalized.bmp";
+        public static readonly int PermutationMoves = 5;
     }
 }
