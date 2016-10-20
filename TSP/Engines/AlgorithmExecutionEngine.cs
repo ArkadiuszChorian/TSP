@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using TSP.Algorithms.OptimalizationAlgorithms;
 using TSP.Models;
 
 namespace TSP.Engines
 {
-    class SessionExecutionEngine
+    class AlgorithmExecutionEngine
     {
         public Stopwatch Timer { get; set; } = new Stopwatch();
+
+        public void ExecuteMultipleStartLocalSearchSession(MultipleStartLocalSearchExecutionSession multipleStartLocalSearchExecutionSession)
+        {
+            multipleStartLocalSearchExecutionSession.MultipleStartLocalSearch.ConstructionAlgorithm =
+                multipleStartLocalSearchExecutionSession.ConstructionAlgorithm;
+
+
+        }
 
         public void ExecuteSession(AlgorithmExecutionSession algorithmExecutionSession)
         {

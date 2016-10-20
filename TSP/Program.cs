@@ -14,7 +14,7 @@ namespace TSP
             DAL.Instance.ReadFromFile();
             DAL.Instance.PrepareFileToWrite();
             
-            var sessionExecutionEngine = new SessionExecutionEngine();
+            var sessionExecutionEngine = new AlgorithmExecutionEngine();
 
             var nearestNeighbourExecutionSession = new AlgorithmExecutionSession(new NearestNeighbour(), new LocalSearch());
             var greedyCycleExecutionSession = new AlgorithmExecutionSession(new GreedyCycle(), new LocalSearch());
