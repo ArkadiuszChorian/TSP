@@ -9,5 +9,6 @@ namespace TSP.Algorithms
     {
         public abstract void ResetAlgorithm();
         public abstract void Optimize();
+        public ConstructionAlgorithm ConstructionAlgorithm { get; set; }
     }
 }

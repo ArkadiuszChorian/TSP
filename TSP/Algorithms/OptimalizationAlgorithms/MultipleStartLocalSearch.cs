@@ -11,12 +11,15 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
     class MultipleStartLocalSearch : OptimalizationAlgorithm
     {
         public static readonly int MultipleStartLocalSearchIterationNumber = int.Parse(ConfigurationManager.AppSettings.Get("multipleStartLocalSearchIterationNumber"));
-        public LocalSearch LocalSearch { get; set; }
-        public ConstructionAlgorithm ConstructionAlgorithm { get; set; }
+        public LocalSearch LocalSearch { get; } = new LocalSearch();
+        //public ConstructionAlgorithm ConstructionAlgorithm { get; set; }
+        public int BestDistance { get; private set; } = int.MaxValue;
         
         public override void ResetAlgorithm()
         {
-            throw new NotImplementedException();
+            BestDistance = int.MaxValue;
+            LocalSearch.ResetAlgorithm();
+            ConstructionAlgorithm.ResetAlgorithm();
         }
 
         public override void Optimize()
@@ -27,7 +30,11 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
                 ConstructionAlgorithm.FindRoute(ConstructionAlgorithm.OperatingData.UnusedNodes[randomIndex]);
                 LocalSearch.OperatingData = ConstructionAlgorithm.OperatingData.CloneData();
                 LocalSearch.Optimize();
-                //TODO
+                if (LocalSearch.OperatingData.Distance < BestDistance)
+                {
+                    BestDistance = LocalSearch.OperatingData.Distance;
+                    OperatingData = LocalSearch.OperatingData.CloneData();
+                }
                 ConstructionAlgorithm.ResetAlgorithm();
                 LocalSearch.ResetAlgorithm();
             }          

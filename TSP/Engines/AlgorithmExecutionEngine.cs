@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using TSP.Algorithms;
 using TSP.Algorithms.OptimalizationAlgorithms;
 using TSP.Models;
 
@@ -10,15 +11,22 @@ namespace TSP.Engines
     {
         public Stopwatch Timer { get; set; } = new Stopwatch();
 
-        public void ExecuteMultipleStartLocalSearchSession(MultipleStartLocalSearchExecutionSession multipleStartLocalSearchExecutionSession)
+        public void ExecuteMultipleStartLocalSearchSession(AlgorithmExecutionSession algorithmExecutionSession)
         {
-            multipleStartLocalSearchExecutionSession.MultipleStartLocalSearch.ConstructionAlgorithm =
-                multipleStartLocalSearchExecutionSession.ConstructionAlgorithm;
+            algorithmExecutionSession.OptimalizationAlgorithm.ConstructionAlgorithm = algorithmExecutionSession.ConstructionAlgorithm;
 
-
+            for (var i = 0; i < 10; i++)
+            {
+                Timer.Reset();
+                Timer.Start();
+                algorithmExecutionSession.OptimalizationAlgorithm.Optimize();
+                Timer.Stop();
+                UpdateOptimalizationStatisticsData(algorithmExecutionSession);
+                algorithmExecutionSession.OptimalizationAlgorithm.ResetAlgorithm();
+            }                    
         }
 
-        public void ExecuteSession(AlgorithmExecutionSession algorithmExecutionSession)
+        public void ExecuteDefaultSession(AlgorithmExecutionSession algorithmExecutionSession)
         {
             var totalNumberOfNodes = DAL.Instance.Nodes.Count;
 
@@ -49,8 +57,11 @@ namespace TSP.Engines
             var totalNumberOfNodes = DAL.Instance.Nodes.Count;
             var randomGenerator = new Random();
 
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 1; i++)
             {
+                Timer.Reset();
+                Timer.Start();
+
                 algorithmExecutionSession.ConstructionAlgorithm.FindRoute(algorithmExecutionSession.ConstructionAlgorithm.OperatingData.UnusedNodes[randomGenerator.Next(0,totalNumberOfNodes)]);
 
                 UpdateConstructionStatisticsData(algorithmExecutionSession);
@@ -59,6 +70,8 @@ namespace TSP.Engines
                     algorithmExecutionSession.ConstructionAlgorithm.OperatingData.CloneData();
 
                 algorithmExecutionSession.OptimalizationAlgorithm.Optimize();
+
+                Timer.Stop();
 
                 UpdateOptimalizationStatisticsData(algorithmExecutionSession);
                 algorithmExecutionSession.ConstructionAlgorithm.ResetAlgorithm();
@@ -69,6 +82,7 @@ namespace TSP.Engines
         private void UpdateConstructionStatisticsData(AlgorithmExecutionSession algorithmExecutionSession)
         {
             algorithmExecutionSession.ConstructionStatisticsData.AccumulatedDistance += algorithmExecutionSession.ConstructionAlgorithm.OperatingData.Distance;
+            algorithmExecutionSession.ConstructionStatisticsData.NumberOfDistanceMeasureAttempts++;
 
             if (algorithmExecutionSession.ConstructionAlgorithm.OperatingData.Distance > algorithmExecutionSession.ConstructionStatisticsData.MaximumDistance)
             {
@@ -84,6 +98,7 @@ namespace TSP.Engines
         private void UpdateOptimalizationStatisticsData(AlgorithmExecutionSession algorithmExecutionSession)
         {
             algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedDistance += algorithmExecutionSession.OptimalizationAlgorithm.OperatingData.Distance;
+            algorithmExecutionSession.OptimalizationStatisticsData.NumberOfDistanceMeasureAttempts++;
 
             if (algorithmExecutionSession.OptimalizationAlgorithm.OperatingData.Distance > algorithmExecutionSession.OptimalizationStatisticsData.MaximumDistance)
             {
@@ -98,6 +113,7 @@ namespace TSP.Engines
             }           
             
             algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedExecutionTime += Timer.ElapsedMilliseconds;
+            algorithmExecutionSession.OptimalizationStatisticsData.NumberOfTimeMeasureAttempts++;
 
             if (Timer.ElapsedMilliseconds > algorithmExecutionSession.OptimalizationStatisticsData.MaximumExecutionTime)
             {
