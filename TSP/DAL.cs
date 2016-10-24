@@ -14,6 +14,7 @@ namespace TSP
 
         public IList<Node> Nodes { get; set; } = new List<Node>();
         public IList<AlgorithmOperatingData> AlgorithmsData { get; set; } = new List<AlgorithmOperatingData>();
+        public long AverangeMslsTime { get; set; }
         public StreamWriter StreamWriter { get; set; }
         public void ReadFromFile()
         {

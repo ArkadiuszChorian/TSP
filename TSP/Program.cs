@@ -29,7 +29,7 @@ namespace TSP
             //sessionExecutionEngine.ExecuteDefaultSession(nearestNeighbourGraspExecutionSession);
             //sessionExecutionEngine.ExecuteDefaultSession(greedyCycleGraspExecutionSession);
             //sessionExecutionEngine.ExecuteDefaultSession(randomSolutionExecutionSession);
-            //sessionExecutionEngine.ExecuteMultipleStartLocalSearchSession(multipleStartLocalSearchExecutionSession);
+            sessionExecutionEngine.ExecuteMultipleStartLocalSearchSession(multipleStartLocalSearchExecutionSession);
             sessionExecutionEngine.ExecuteIteratedLocalSearchSession(iteratedLocalSearchExecutionSession);
 
             var drawer = new Drawer();
@@ -59,9 +59,9 @@ namespace TSP
             //drawer.DrawChart(Constants.RandomSolutionFilename, randomSolutionExecutionSession.ConstructionStatisticsData.BestRoute);
             //drawer.DrawChart(Constants.RandomSolutionOptimalizedFilename, randomSolutionExecutionSession.OptimalizationStatisticsData.BestRoute);
 
-            //Console.WriteLine(Constants.MultipleStartLocalSearchText);
-            //DAL.Instance.WriteToFile(multipleStartLocalSearchExecutionSession, Constants.MultipleStartLocalSearchText);
-            //drawer.DrawChart(Constants.MultipleStartLocalSearchFilename, multipleStartLocalSearchExecutionSession.OptimalizationStatisticsData.BestRoute);
+            Console.WriteLine(Constants.MultipleStartLocalSearchText);
+            DAL.Instance.WriteToFile(multipleStartLocalSearchExecutionSession, Constants.MultipleStartLocalSearchText);
+            drawer.DrawChart(Constants.MultipleStartLocalSearchFilename, multipleStartLocalSearchExecutionSession.OptimalizationStatisticsData.BestRoute);
 
             Console.WriteLine(Constants.IteratedLocalSearchText);
             DAL.Instance.WriteToFile(iteratedLocalSearchExecutionSession, Constants.IteratedLocalSearchText);

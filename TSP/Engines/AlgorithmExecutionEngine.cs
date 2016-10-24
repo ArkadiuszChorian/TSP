@@ -15,15 +15,22 @@ namespace TSP.Engines
         {
             algorithmExecutionSession.OptimalizationAlgorithm.ConstructionAlgorithm = algorithmExecutionSession.ConstructionAlgorithm;
 
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < Constants.NumberOfMslsAndIlsIteration; i++)
             {
                 Timer.Reset();
                 Timer.Start();
                 algorithmExecutionSession.OptimalizationAlgorithm.Optimize();
                 Timer.Stop();
+
+                UpdateConstructionStatisticsData(algorithmExecutionSession);
                 UpdateOptimalizationStatisticsData(algorithmExecutionSession);
+
                 algorithmExecutionSession.OptimalizationAlgorithm.ResetAlgorithm();
-            }                    
+            }
+            //Console.WriteLine("XXXXXXXXXAcccc   " + algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedExecutionTime);
+            //Console.WriteLine("XXXXXXXXXNumbe   " + algorithmExecutionSession.OptimalizationStatisticsData.NumberOfTimeMeasureAttempts);
+            //Console.WriteLine("XXXXXXXXXDivi   " + algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedExecutionTime /algorithmExecutionSession.OptimalizationStatisticsData.NumberOfTimeMeasureAttempts);
+            DAL.Instance.AverangeMslsTime = algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedExecutionTime/algorithmExecutionSession.OptimalizationStatisticsData.NumberOfTimeMeasureAttempts;
         }
 
         public void ExecuteDefaultSession(AlgorithmExecutionSession algorithmExecutionSession)
@@ -57,7 +64,7 @@ namespace TSP.Engines
             var totalNumberOfNodes = DAL.Instance.Nodes.Count;
             var randomGenerator = new Random();
 
-            for (var i = 0; i < 1; i++)
+            for (var i = 0; i < Constants.NumberOfMslsAndIlsIteration; i++)
             {
                 Timer.Reset();
                 Timer.Start();
@@ -74,6 +81,7 @@ namespace TSP.Engines
                 Timer.Stop();
 
                 UpdateOptimalizationStatisticsData(algorithmExecutionSession);
+
                 algorithmExecutionSession.ConstructionAlgorithm.ResetAlgorithm();
                 algorithmExecutionSession.OptimalizationAlgorithm.ResetAlgorithm();
             }

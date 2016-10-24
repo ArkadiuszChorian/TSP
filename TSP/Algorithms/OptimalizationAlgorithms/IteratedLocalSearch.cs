@@ -12,16 +12,19 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
     class IteratedLocalSearch : LocalSearch
     {
         public long IterationTime { get; set; }
-        public IList<Node> PreviousBestRoute { get; set; }
+        public IList<Node> PreviousBestRoute { get; set; } = new List<Node>();
         public int PreviousBestDistance { get; set; } = int.MaxValue;
         private Stopwatch Timer { get; } = new Stopwatch();
+        public long AverangeMslsTime { get; set; }
+        //public long AverangeMslsTime { get; set; } = 5000;
         
 
         public override void Optimize()
         {
+            AverangeMslsTime = DAL.Instance.AverangeMslsTime;
             Console.WriteLine($"Input Distance: {OperatingData.Distance}");
             Timer.Start();
-            while (Timer.ElapsedMilliseconds < 80000) // Avarage time of 1000 cycles of NearestNeighbour Grasp
+            while (Timer.ElapsedMilliseconds < AverangeMslsTime)
             {
                 base.Optimize();
                 if (OperatingData.Distance < PreviousBestDistance || PreviousBestRoute.Count == 0)
@@ -33,6 +36,8 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
                 Perturbation();
             }
             Timer.Stop();
+            OperatingData.PathNodes = PreviousBestRoute.CloneList();
+            OperatingData.Distance = PreviousBestDistance;
             Console.WriteLine($"Iterated Local Search Distance: {PreviousBestDistance}");
             foreach (var pathNode in PreviousBestRoute)
             {
