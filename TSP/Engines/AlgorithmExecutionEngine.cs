@@ -62,14 +62,16 @@ namespace TSP.Engines
         public void ExecuteIteratedLocalSearchSession(AlgorithmExecutionSession algorithmExecutionSession)
         {
             var totalNumberOfNodes = DAL.Instance.Nodes.Count;
-            var randomGenerator = new Random();
+            //var randomGenerator = new Random();
+            var randomGenerator = algorithmExecutionSession.ConstructionAlgorithm.RandomGenerator;
 
-            for (var i = 0; i < Constants.NumberOfMslsAndIlsIteration; i++)
+            for (var i = 0; i < Constants.NumberOfMslsAndIlsIteration*100; i++)
             {
                 Timer.Reset();
                 Timer.Start();
-
-                algorithmExecutionSession.ConstructionAlgorithm.FindRoute(algorithmExecutionSession.ConstructionAlgorithm.OperatingData.UnusedNodes[randomGenerator.Next(0,totalNumberOfNodes)]);
+                
+                //algorithmExecutionSession.ConstructionAlgorithm.FindRoute(algorithmExecutionSession.ConstructionAlgorithm.OperatingData.UnusedNodes[randomGenerator.Next(0,totalNumberOfNodes-1)]);
+                algorithmExecutionSession.ConstructionAlgorithm.FindRoute(algorithmExecutionSession.ConstructionAlgorithm.OperatingData.UnusedNodes[i]);
 
                 UpdateConstructionStatisticsData(algorithmExecutionSession);
 
@@ -84,6 +86,26 @@ namespace TSP.Engines
 
                 algorithmExecutionSession.ConstructionAlgorithm.ResetAlgorithm();
                 algorithmExecutionSession.OptimalizationAlgorithm.ResetAlgorithm();
+            }
+        }
+
+        public void ExecuteLocalSearchSession(AlgorithmExecutionSession algorithmExecutionSession)
+        {
+            var totalNumberOfNodes = DAL.Instance.Nodes.Count;
+            var randomGenerator = new Random();
+
+            for (var i = 0; i < 1000; i++)
+            {
+                algorithmExecutionSession.ConstructionAlgorithm.FindRoute(algorithmExecutionSession.ConstructionAlgorithm.OperatingData.UnusedNodes[randomGenerator.Next(0, totalNumberOfNodes)]);
+                algorithmExecutionSession.OptimalizationAlgorithm.OperatingData =
+                    algorithmExecutionSession.ConstructionAlgorithm.OperatingData.CloneData();
+                algorithmExecutionSession.OptimalizationAlgorithm.Optimize();
+
+                if (algorithmExecutionSession.OptimalizationAlgorithm.OperatingData.Distance < DAL.Instance.BestLsData.Distance)
+                {
+                    DAL.Instance.BestLsData =
+                        algorithmExecutionSession.OptimalizationAlgorithm.OperatingData.CloneData();
+                }
             }
         }
 

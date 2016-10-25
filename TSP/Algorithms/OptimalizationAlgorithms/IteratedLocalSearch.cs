@@ -12,8 +12,9 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
     class IteratedLocalSearch : LocalSearch
     {
         public long IterationTime { get; set; }
-        public IList<Node> PreviousBestRoute { get; set; } = new List<Node>();
-        public int PreviousBestDistance { get; set; } = int.MaxValue;
+        //public IList<Node> PreviousBestRoute { get; set; } = new List<Node>();
+        //public int PreviousBestDistance { get; set; } = int.MaxValue;
+        public AlgorithmOperatingData BestData { get; set; } = new AlgorithmOperatingData {Distance = int.MaxValue};
         private Stopwatch Timer { get; } = new Stopwatch();
         public long AverangeMslsTime { get; set; }
         //public long AverangeMslsTime { get; set; } = 5000;
@@ -21,25 +22,28 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
 
         public override void Optimize()
         {
-            AverangeMslsTime = DAL.Instance.AverangeMslsTime;
+            AverangeMslsTime = DAL.Instance.AverangeMslsTime/100;
             Console.WriteLine($"Input Distance: {OperatingData.Distance}");
             Timer.Start();
+            base.Optimize();
+            BestData.PathNodes = OperatingData.PathNodes.CloneList();
+            BestData.Distance = OperatingData.Distance;
             while (Timer.ElapsedMilliseconds < AverangeMslsTime)
             {
-                base.Optimize();
-                if (OperatingData.Distance < PreviousBestDistance || PreviousBestRoute.Count == 0)
-                {
-                    PreviousBestRoute = OperatingData.PathNodes.CloneList();
-                    PreviousBestDistance = OperatingData.Distance;
-                }
-                
+                OperatingData = BestData.CloneData();              
                 Perturbation();
+                base.Optimize();
+
+                if (OperatingData.Distance >= BestData.Distance && BestData.PathNodes.Count != 0) continue;
+                BestData = OperatingData.CloneData();
+                //BestData.PathNodes = OperatingData.PathNodes.CloneList();
+                //BestData.Distance = OperatingData.Distance;
             }
             Timer.Stop();
-            OperatingData.PathNodes = PreviousBestRoute.CloneList();
-            OperatingData.Distance = PreviousBestDistance;
-            Console.WriteLine($"Iterated Local Search Distance: {PreviousBestDistance}");
-            foreach (var pathNode in PreviousBestRoute)
+            OperatingData.PathNodes = BestData.PathNodes.CloneList();
+            OperatingData.Distance = BestData.Distance;
+            Console.WriteLine($"Iterated Local Search Distance: {BestData.Distance}");
+            foreach (var pathNode in BestData.PathNodes)
             {
                 Console.Write($"{pathNode.Id} ");
             }
@@ -48,7 +52,7 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
 
         private void Perturbation()
         {
-            for ( var i = 0; i < Constants.PermutationMoves; i++ )
+            for ( var i = 0; i < Constants.PerturbationMoves; i++ )
             {
                 SwapPathsFirstIndex = RandomGenerator.Next(0, OperatingData.PathNodes.Count-1);
                 do
@@ -107,8 +111,10 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
         public override void ResetAlgorithm()
         {
             base.ResetAlgorithm();
-            PreviousBestRoute.Clear();
-            PreviousBestDistance = int.MaxValue;
+            //PreviousBestRoute.Clear();
+            //PreviousBestDistance = int.MaxValue;
+            BestData.PathNodes.Clear();
+            BestData.Distance = int.MaxValue;
             Timer.Reset();
         }
     }
