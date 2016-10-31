@@ -21,10 +21,8 @@ namespace TSP
             var nearestNeighbourGraspExecutionSession = new AlgorithmExecutionSession(new NearestNeighbourGrasp(), new LocalSearch());
             var greedyCycleGraspExecutionSession = new AlgorithmExecutionSession(new GreedyCycleGrasp(), new LocalSearch());
             var randomSolutionExecutionSession = new AlgorithmExecutionSession(new RandomSolution(), new LocalSearch());
-            //var multipleStartLocalSearchExecutionSession = new AlgorithmExecutionSession(new NearestNeighbourGrasp(), new MultipleStartLocalSearch());
-            //var iteratedLocalSearchExecutionSession = new AlgorithmExecutionSession(new NearestNeighbourGrasp(), new IteratedLocalSearch());
-            var multipleStartLocalSearchExecutionSession = new AlgorithmExecutionSession(new NearestNeighbour(), new MultipleStartLocalSearch());
-            var iteratedLocalSearchExecutionSession = new AlgorithmExecutionSession(new NearestNeighbour(), new IteratedLocalSearch());
+            var multipleStartLocalSearchExecutionSession = new AlgorithmExecutionSession(new NearestNeighbourGrasp(), new MultipleStartLocalSearch());
+            var iteratedLocalSearchExecutionSession = new AlgorithmExecutionSession(new NearestNeighbourGrasp(), new IteratedLocalSearch());
             //var multipleStartLocalSearchExecutionSession = new AlgorithmExecutionSession(new RandomSolution(), new MultipleStartLocalSearch());
             //var iteratedLocalSearchExecutionSession = new AlgorithmExecutionSession(new RandomSolution(), new IteratedLocalSearch());
 

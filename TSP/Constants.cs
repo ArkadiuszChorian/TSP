@@ -31,8 +31,8 @@ namespace TSP
         public static readonly string MultipleStartLocalSearchFilename = "MultipleStartLocalSearch.bmp";
         public static readonly string IteratedLocalSearchFilename = "IteratedLocalSearch.bmp";
 
-        public static readonly int MultipleStartLocalSearchIterationNumber = 100;
-        public static readonly int PerturbationMoves = 2;
-        public static readonly int NumberOfMslsAndIlsIteration = 1;
+        public static readonly int MultipleStartLocalSearchIterationNumber = 1000;
+        public static readonly int PerturbationMoves = 3;
+        public static readonly int NumberOfMslsAndIlsIteration = 10;
     }
 }

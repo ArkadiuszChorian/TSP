@@ -27,9 +27,6 @@ namespace TSP.Engines
 
                 algorithmExecutionSession.OptimalizationAlgorithm.ResetAlgorithm();
             }
-            //Console.WriteLine("XXXXXXXXXAcccc   " + algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedExecutionTime);
-            //Console.WriteLine("XXXXXXXXXNumbe   " + algorithmExecutionSession.OptimalizationStatisticsData.NumberOfTimeMeasureAttempts);
-            //Console.WriteLine("XXXXXXXXXDivi   " + algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedExecutionTime /algorithmExecutionSession.OptimalizationStatisticsData.NumberOfTimeMeasureAttempts);
             DAL.Instance.AverangeMslsTime = algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedExecutionTime/algorithmExecutionSession.OptimalizationStatisticsData.NumberOfTimeMeasureAttempts;
         }
 
@@ -62,16 +59,16 @@ namespace TSP.Engines
         public void ExecuteIteratedLocalSearchSession(AlgorithmExecutionSession algorithmExecutionSession)
         {
             var totalNumberOfNodes = DAL.Instance.Nodes.Count;
-            //var randomGenerator = new Random();
             var randomGenerator = algorithmExecutionSession.ConstructionAlgorithm.RandomGenerator;
 
-            for (var i = 0; i < Constants.NumberOfMslsAndIlsIteration*100; i++)
+            for (var i = 0; i < Constants.NumberOfMslsAndIlsIteration; i++)
             {
+                algorithmExecutionSession.ConstructionAlgorithm.ResetAlgorithm();
+                algorithmExecutionSession.OptimalizationAlgorithm.ResetAlgorithm();
                 Timer.Reset();
                 Timer.Start();
-                
-                //algorithmExecutionSession.ConstructionAlgorithm.FindRoute(algorithmExecutionSession.ConstructionAlgorithm.OperatingData.UnusedNodes[randomGenerator.Next(0,totalNumberOfNodes-1)]);
-                algorithmExecutionSession.ConstructionAlgorithm.FindRoute(algorithmExecutionSession.ConstructionAlgorithm.OperatingData.UnusedNodes[i]);
+
+                algorithmExecutionSession.ConstructionAlgorithm.FindRoute(algorithmExecutionSession.ConstructionAlgorithm.OperatingData.UnusedNodes[randomGenerator.Next(0, totalNumberOfNodes - 1)]);
 
                 UpdateConstructionStatisticsData(algorithmExecutionSession);
 
@@ -83,9 +80,6 @@ namespace TSP.Engines
                 Timer.Stop();
 
                 UpdateOptimalizationStatisticsData(algorithmExecutionSession);
-
-                algorithmExecutionSession.ConstructionAlgorithm.ResetAlgorithm();
-                algorithmExecutionSession.OptimalizationAlgorithm.ResetAlgorithm();
             }
         }
 

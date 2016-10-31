@@ -125,6 +125,11 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
                 else
                     SwapVertices();
             }
+
+            //ResetAlgorithm();
+            OperatingData.Distance = BestSwapPathsDistance < BestSwapVerticesDistance
+                ? BestSwapPathsDistance
+                : BestSwapVerticesDistance;
         }
     }
 }

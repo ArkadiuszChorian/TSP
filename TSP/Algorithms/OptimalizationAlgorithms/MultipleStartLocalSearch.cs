@@ -27,8 +27,11 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
         {
             for (var i = 0; i < Constants.MultipleStartLocalSearchIterationNumber; i++)
             {
-                //var randomIndex = RandomGenerator.Next(0, ConstructionAlgorithm.OperatingData.UnusedNodes.Count-1);
-                var randomIndex = i;
+                ConstructionAlgorithm.ResetAlgorithm();
+                LocalSearch.ResetAlgorithm();
+
+                var randomIndex = RandomGenerator.Next(0, ConstructionAlgorithm.OperatingData.UnusedNodes.Count - 1);
+                //var randomIndex = i;
                 ConstructionAlgorithm.FindRoute(ConstructionAlgorithm.OperatingData.UnusedNodes[randomIndex]);
                 LocalSearch.OperatingData = ConstructionAlgorithm.OperatingData.CloneData();
                 LocalSearch.Optimize();
@@ -38,8 +41,6 @@ namespace TSP.Algorithms.OptimalizationAlgorithms
                     OperatingData = LocalSearch.OperatingData.CloneData();
                     BestSolutionInitialData = ConstructionAlgorithm.OperatingData.CloneData();
                 }
-                ConstructionAlgorithm.ResetAlgorithm();
-                LocalSearch.ResetAlgorithm();
             }
             ConstructionAlgorithm.OperatingData = BestSolutionInitialData.CloneData();
         }
