@@ -2,7 +2,7 @@
 
 namespace TSP.Models
 {
-    class Node : ICloneable
+    public class Node : ICloneable
     {
         public int Id { get; set; }
         public int X { get; set; }

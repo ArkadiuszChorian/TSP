@@ -50,6 +50,7 @@
     <Compile Include="Algorithms\OptimalizationAlgorithms\LocalSearch.cs" />
     <Compile Include="Algorithms\OptimalizationAlgorithm.cs" />
     <Compile Include="Algorithms\OptimalizationAlgorithms\MultipleStartLocalSearch.cs" />
+    <Compile Include="Comparer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Models\AlgorithmExecutionSession.cs" />
     <Compile Include="Algorithms\ConstructionAlgorithm.cs" />

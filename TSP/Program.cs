@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using TSP.Algorithms;
 using TSP.Algorithms.ConstructionAlgorithms;
 using TSP.Algorithms.OptimalizationAlgorithms;
@@ -12,7 +14,7 @@ namespace TSP
         static void Main()
         {
             DAL.Instance.ReadFromFile();
-            DAL.Instance.PrepareFileToWrite();
+            //DAL.Instance.PrepareFileToWrite();
             
             var sessionExecutionEngine = new AlgorithmExecutionEngine();
 
@@ -31,8 +33,8 @@ namespace TSP
             //sessionExecutionEngine.ExecuteDefaultSession(nearestNeighbourGraspExecutionSession);
             //sessionExecutionEngine.ExecuteDefaultSession(greedyCycleGraspExecutionSession);
             //sessionExecutionEngine.ExecuteDefaultSession(randomSolutionExecutionSession);
-            sessionExecutionEngine.ExecuteMultipleStartLocalSearchSession(multipleStartLocalSearchExecutionSession);
-            sessionExecutionEngine.ExecuteIteratedLocalSearchSession(iteratedLocalSearchExecutionSession);
+            //sessionExecutionEngine.ExecuteMultipleStartLocalSearchSession(multipleStartLocalSearchExecutionSession);
+            //sessionExecutionEngine.ExecuteIteratedLocalSearchSession(iteratedLocalSearchExecutionSession);
 
             var drawer = new Drawer();
 
@@ -61,17 +63,61 @@ namespace TSP
             //drawer.DrawChart(Constants.RandomSolutionFilename, randomSolutionExecutionSession.ConstructionStatisticsData.BestRoute);
             //drawer.DrawChart(Constants.RandomSolutionOptimalizedFilename, randomSolutionExecutionSession.OptimalizationStatisticsData.BestRoute);
 
-            Console.WriteLine(Constants.MultipleStartLocalSearchText);
-            DAL.Instance.WriteToFile(multipleStartLocalSearchExecutionSession, Constants.MultipleStartLocalSearchText);
-            drawer.DrawChart(Constants.MultipleStartLocalSearchFilename, multipleStartLocalSearchExecutionSession.OptimalizationStatisticsData.BestRoute);
+            //Console.WriteLine(Constants.MultipleStartLocalSearchText);
+            //DAL.Instance.WriteToFile(multipleStartLocalSearchExecutionSession, Constants.MultipleStartLocalSearchText);
+            //drawer.DrawChart(Constants.MultipleStartLocalSearchFilename, multipleStartLocalSearchExecutionSession.OptimalizationStatisticsData.BestRoute);
 
-            Console.WriteLine(Constants.IteratedLocalSearchText);
-            DAL.Instance.WriteToFile(iteratedLocalSearchExecutionSession, Constants.IteratedLocalSearchText);
-            drawer.DrawChart(Constants.IteratedLocalSearchFilename, iteratedLocalSearchExecutionSession.OptimalizationStatisticsData.BestRoute);
+            //Console.WriteLine(Constants.IteratedLocalSearchText);
+            //DAL.Instance.WriteToFile(iteratedLocalSearchExecutionSession, Constants.IteratedLocalSearchText);
+            //drawer.DrawChart(Constants.IteratedLocalSearchFilename, iteratedLocalSearchExecutionSession.OptimalizationStatisticsData.BestRoute);
 
             //var LsExecutionSession = new AlgorithmExecutionSession(new RandomSolution(), new LocalSearch());
 
-            DAL.Instance.CloseFileToWrite();
+            var localSearchesResults = new List<AlgorithmOperatingData>();          
+            //var bestLocalSearchResult = new AlgorithmOperatingData {Distance = int.MaxValue};
+            var bestLocalSearchDistance = int.MaxValue;
+            var bestLocalSearchIndex = 0;
+            var localSearch = new LocalSearch {ConstructionAlgorithm = new RandomSolution()};
+
+            for (var i = 0; i < 10; i++)
+            {
+                localSearch.ConstructionAlgorithm.ResetAlgorithm();
+                localSearch.ResetAlgorithm();
+                localSearch.ConstructionAlgorithm.FindRoute(localSearch.ConstructionAlgorithm.OperatingData.UnusedNodes[0]);
+                localSearch.OperatingData = localSearch.ConstructionAlgorithm.OperatingData.CloneData();
+                localSearch.Optimize();
+                var temporaryList = localSearch.OperatingData.CloneData();
+                localSearchesResults.Add(temporaryList);
+                if (localSearch.OperatingData.Distance >= bestLocalSearchDistance) continue;
+                bestLocalSearchDistance = localSearch.OperatingData.Distance;
+                bestLocalSearchIndex = i;
+            }
+
+            var averangeSimilarityToOthersBySharedVertices = new List<double>(new double[localSearchesResults.Count]);
+            var averangeSimilarityToOthersBySharedEdges = new List<double>(new double[localSearchesResults.Count]);           
+            var similarityToBestBySharedVertices = new List<double>(new double[localSearchesResults.Count]);
+            var similarityToBestBySharedEdges = new List<double>(new double[localSearchesResults.Count]);
+
+            for (var i = 0; i < localSearchesResults.Count; i++)
+            {               
+                for (var j = 0; j < localSearchesResults.Count; j++)
+                {
+                    if (i == j) continue;
+                    averangeSimilarityToOthersBySharedVertices[i] += Comparer.SharedVertices(localSearchesResults[i].PathNodes, localSearchesResults[j].PathNodes);
+                    averangeSimilarityToOthersBySharedEdges[i] += Comparer.SharedEdges(localSearchesResults[i].PathNodes, localSearchesResults[j].PathNodes);
+
+                }
+                if (i == bestLocalSearchIndex) continue;
+                similarityToBestBySharedVertices[i] = Comparer.SharedVertices(localSearchesResults[i].PathNodes, localSearchesResults[bestLocalSearchIndex].PathNodes);
+                similarityToBestBySharedEdges[i] = Comparer.SharedEdges(localSearchesResults[i].PathNodes, localSearchesResults[bestLocalSearchIndex].PathNodes);
+            }
+
+            averangeSimilarityToOthersBySharedVertices = averangeSimilarityToOthersBySharedVertices.Select(avg => avg / localSearchesResults.Count - 1) as List<double>;
+            averangeSimilarityToOthersBySharedEdges = averangeSimilarityToOthersBySharedEdges.Select(avg => avg / localSearchesResults.Count - 1) as List<double>;
+
+
+
+            //DAL.Instance.CloseFileToWrite();
           
             Console.ReadKey();
         }
