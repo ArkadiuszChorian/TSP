@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using TSP.Models;
 
@@ -48,34 +49,21 @@ namespace TSP2
 
         public void PrepareFileToWrite()
         {
-            if (StreamWriter == null) StreamWriter = new StreamWriter("results.txt");
+            if (StreamWriter == null) StreamWriter = new StreamWriter("results.csv");
         }
 
-        //public void WriteToFile(AlgorithmExecutionSession algorithmExecutionSession, string title)
-        //{
-        //    if (StreamWriter == null) return;
-        //    StreamWriter.WriteLine(title);
-        //    StreamWriter.WriteLine("MIN: " + algorithmExecutionSession.ConstructionStatisticsData.MinimumDistance);
-        //    StreamWriter.WriteLine("AVG: " + algorithmExecutionSession.ConstructionStatisticsData.AccumulatedDistance / algorithmExecutionSession.ConstructionStatisticsData.NumberOfDistanceMeasureAttempts);
-        //    StreamWriter.WriteLine("MAX: " + algorithmExecutionSession.ConstructionStatisticsData.MaximumDistance);
-        //    foreach (var nodes in algorithmExecutionSession.ConstructionStatisticsData.BestRoute)
-        //    {
-        //        StreamWriter.Write($"{nodes.Id} ");
-        //    }
-        //    StreamWriter.WriteLine();
-        //    StreamWriter.WriteLine("---After Optimalization---");
-        //    StreamWriter.WriteLine("MIN: " + algorithmExecutionSession.OptimalizationStatisticsData.MinimumDistance);
-        //    StreamWriter.WriteLine("AVG: " + algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedDistance / algorithmExecutionSession.OptimalizationStatisticsData.NumberOfDistanceMeasureAttempts);
-        //    StreamWriter.WriteLine("MAX: " + algorithmExecutionSession.OptimalizationStatisticsData.MaximumDistance);
-        //    StreamWriter.WriteLine("MINT: " + algorithmExecutionSession.OptimalizationStatisticsData.MinimumExecutionTime);
-        //    StreamWriter.WriteLine("AVGT: " + (double)algorithmExecutionSession.OptimalizationStatisticsData.AccumulatedExecutionTime / algorithmExecutionSession.OptimalizationStatisticsData.NumberOfTimeMeasureAttempts);
-        //    StreamWriter.WriteLine("MAXT: " + algorithmExecutionSession.OptimalizationStatisticsData.MaximumExecutionTime);
-        //    foreach (var nodes in algorithmExecutionSession.OptimalizationStatisticsData.BestRoute)
-        //    {
-        //        StreamWriter.Write($"{nodes.Id} ");
-        //    }
-        //    StreamWriter.WriteLine();
-        //}
+        public void WriteToFile(List<OperatingAndStatisticsData> operatingAndStatisticsDatas)
+        {
+            if (StreamWriter == null) return;
+            operatingAndStatisticsDatas.ForEach(data =>
+            {
+                StreamWriter.WriteLine(data.OperatingData.Distance + ";"
+                    + data.AverangeSimilarityToOthersBySharedVertices + ";"
+                    + data.AverangeSimilarityToOthersBySharedEdges + ";"
+                    + data.SimilarityToBestBySharedVertices + ";"
+                    + data.SimilarityToBestBySharedEdges);
+            });            
+        }
 
         public void CloseFileToWrite()
         {

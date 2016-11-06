@@ -1,17 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TSP.Models;
 
-namespace TSP
+namespace TSP2
 {
     public static class Comparer
     {
         public static int SharedVertices(IList<Node> nodes1, IList<Node> nodes2)
         {
-            return nodes1.Count(nodes2.Contains);
+            var numberOfSharedVertices = 0;
+
+            for (var i = 0; i < nodes1.Count; i++)
+            {
+                for (var j = i; j < nodes2.Count; j++)
+                {
+                    if (nodes1[i].Id == nodes2[j].Id)
+                    {
+                        numberOfSharedVertices++;
+                    }
+                }
+            }
+
+            return numberOfSharedVertices;
+            //return nodes1.Count(nodes2.Contains);
         }
 
         public static int SharedEdges(IList<Node> nodes1, IList<Node> nodes2)

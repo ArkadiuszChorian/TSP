@@ -18,5 +18,10 @@ namespace TSP.Models
         {
             return MemberwiseClone();
         }
+
+        public bool Equals(Node nodeToCompare)
+        {
+            return Id == nodeToCompare.Id;
+        }
     }
 }
