@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TSP
 {
-    static class Constants
+    public static class Constants
     {
         public static readonly string NearestNeighbourText = "---Nearest Neighbour---";
         public static readonly string NearestNeighboutGraspText = "---Nearest Neighbour Grasp---";
@@ -34,5 +34,10 @@ namespace TSP
         public static readonly int MultipleStartLocalSearchIterationNumber = 1000;
         public static readonly int PerturbationMoves = 3;
         public static readonly int NumberOfMslsAndIlsIteration = 10;
+
+        public static readonly int NumberOfLocalSearchResults = 1000;
+        public static readonly int EvaluationTimeInMiliseconds = 83360;
+        public static readonly int NumberOfHybridGeneticAlgorithmExecutions = 10;
+        public static readonly int PopulationSize = 20;
     }
 }

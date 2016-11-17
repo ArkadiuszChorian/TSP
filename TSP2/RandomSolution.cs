@@ -24,7 +24,7 @@ namespace TSP2
 
         public OperatingData FindRouteFromRandomStart(OperatingData operatingData)
         {
-            var actualNode = operatingData.UnusedNodes[RandomGenerator.Next(0, operatingData.UnusedNodes.Count-1)];
+            var actualNode = operatingData.UnusedNodes[RandomGenerator.Next(0, operatingData.UnusedNodes.Count)];
 
             for (var i = 0; i < ResultNodesLimit; i++)
             {
@@ -39,7 +39,7 @@ namespace TSP2
 
         public Node FindRandomNeighbour(Node sourceNode, OperatingData operatingData)       
         {
-            var randomNode = operatingData.UnusedNodes[RandomGenerator.Next(0, operatingData.UnusedNodes.Count - 1)];
+            var randomNode = operatingData.UnusedNodes[RandomGenerator.Next(0, operatingData.UnusedNodes.Count)];
             operatingData.Distance += CalculateDistance(sourceNode, randomNode);
 
             return randomNode;

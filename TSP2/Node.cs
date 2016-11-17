@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace TSP.Models
+namespace TSP2
 {
-    public class Node : ICloneable
+    public class Node : ICloneable, IEquatable<Node>
     {
         public int Id { get; set; }
         public int X { get; set; }
@@ -21,7 +21,12 @@ namespace TSP.Models
 
         public bool Equals(Node nodeToCompare)
         {
-            return Id == nodeToCompare.Id;
+            return nodeToCompare != null && Id == nodeToCompare.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }

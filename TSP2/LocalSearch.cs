@@ -104,7 +104,7 @@ namespace TSP2
             BestSwapVerticesDistance = int.MaxValue;
         }
 
-        public OperatingData Optimize(OperatingData operatingData)
+        public void Optimize(OperatingData operatingData)
         {
             while ( VerticesChangeMade || PathsChangeMade )
             {
@@ -132,8 +132,6 @@ namespace TSP2
                 : BestSwapVerticesDistance;
 
             ResetAlgorithm();
-
-            return operatingData;
         }
     }
 }

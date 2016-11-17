@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using TSP.Models;
 
 namespace TSP2
 {
@@ -12,7 +11,13 @@ namespace TSP2
         public static DAL Instance => Lazy.Value;
         private DAL(){}
 
+        public static readonly int NumberOfLocalSearchResults = 1000;
+        public static readonly int EvaluationTimeInMiliseconds = 83360;
+        public static readonly int NumberOfHybridGeneticAlgorithmExecutions = 10;
+        public static readonly int PopulationSize = 20;
+
         public IList<Node> Nodes { get; set; } = new List<Node>();
+        public List<Tuple<int, long, int>> HybridAlgorithmStatistics { get; set; } = new List<Tuple<int, long, int>>(NumberOfHybridGeneticAlgorithmExecutions);
         //public IList<AlgorithmOperatingData> AlgorithmsData { get; set; } = new List<AlgorithmOperatingData>();
         //public AlgorithmOperatingData BestLsData { get; set; } = new AlgorithmOperatingData
         //{
@@ -52,7 +57,13 @@ namespace TSP2
             if (StreamWriter == null) StreamWriter = new StreamWriter("results.csv");
         }
 
-        public void WriteToFile(List<OperatingAndStatisticsData> operatingAndStatisticsDatas)
+        public void WriteToFile()
+        {
+            if (StreamWriter == null) return;
+            HybridAlgorithmStatistics.ForEach(statistic => StreamWriter.WriteLine(statistic.Item1 + ";" + statistic.Item2 + ";" + statistic.Item3));
+        }
+
+        public void WriteToFileOld(List<OperatingAndStatisticsData> operatingAndStatisticsDatas)
         {
             if (StreamWriter == null) return;
             operatingAndStatisticsDatas.ForEach(data =>
