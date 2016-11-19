@@ -20,6 +20,7 @@ namespace TSP2
             var randomSolution = new RandomSolution();
             var localSearch = new LocalSearch();
             var random = new Random();           
+            var hybridStatistics = new List<List<HybridAlgorithmStatisticsData>>(DAL.NumberOfHybridGeneticAlgorithmExecutions);
             //var population = new List<OperatingData>(20);          
 
             for (var i = 0; i < DAL.NumberOfHybridGeneticAlgorithmExecutions; i++)
@@ -27,12 +28,19 @@ namespace TSP2
                 Console.WriteLine("Started iteration number:    " + (i+1));
                 
                 var population = GenerateInitialPopulation();
-                var singleExecutionTime = long.MinValue;            
+                //var hybridStatisticsData = new HybridAlgorithmStatisticsData();
+                var iterationNumber = 0;
+                //var singleExecutionTime = long.MinValue;    
+                var hybridStatisticsSingleExecutionsList = new List<HybridAlgorithmStatisticsData>();        
 
                 hybridAlgorithmGlobalTimer.Restart();
 
+                //Console.WriteLine("--- Ready to start iterating ---");
+                //Console.ReadKey();
+
+                //while (hybridAlgorithmGlobalTimer.ElapsedMilliseconds < DAL.EvaluationTimeInMiliseconds)
                 while (hybridAlgorithmGlobalTimer.ElapsedMilliseconds < DAL.EvaluationTimeInMiliseconds)
-                {
+                {                    
                     var parent1 = population[random.Next(0, population.Count)];
                     var parent2 = population[random.Next(0, population.Count)];
                     var worstSolution = FindWorstSolution(population);
@@ -44,27 +52,51 @@ namespace TSP2
 
                     var child = Recombine(parent1, parent2);
 
-                    localSearchTimer.Restart();
+                    localSearchTimer.Reset();
+                    localSearchTimer.Start();
                     localSearch.Optimize(child);
                     localSearchTimer.Stop();
-                    singleExecutionTime += localSearchTimer.ElapsedMilliseconds;
+                    //singleExecutionTime += localSearchTimer.ElapsedMilliseconds;
 
                     if (population.Any(solution => solution.Distance == child.Distance) == false && child.Distance < worstSolution.Distance)
                     {
                         population.Remove(worstSolution);
                         population.Add(child);
                     }
+
+                    hybridStatisticsSingleExecutionsList.Add(new HybridAlgorithmStatisticsData
+                    {
+                        Distance = FindBestDistance(population),
+                        ExecutionTime = localSearchTimer.Elapsed.Milliseconds,
+                        IterationNumber = ++iterationNumber
+                    });
+
+                    if (iterationNumber % 100 == 0)
+                    {
+                        Console.WriteLine("--- Iteration number: " + iterationNumber + " ---");
+                    }                  
                 }
 
-                DAL.Instance.HybridAlgorithmStatistics[i] = Tuple.Create(i+1, singleExecutionTime, FindBestDistance(population));
+                hybridStatistics.Add(hybridStatisticsSingleExecutionsList);
+
+                Console.WriteLine("\n--- BEST DISTANCE = " + FindBestDistance(population) + " ---\n");
+
+                //DAL.Instance.HybridAlgorithmStatistics[i] = Tuple.Create(i+1, long.MinValue, FindBestDistance(population));
             }        
+            
+            hybridAlgorithmGlobalTimer.Stop();
                   
             DAL.Instance.PrepareFileToWrite();  
-            DAL.Instance.WriteToFile();  
+            DAL.Instance.WriteToFileForHybridAlgorithm(hybridStatistics);  
             DAL.Instance.CloseFileToWrite();
 
             Console.WriteLine("Done!");
             Console.ReadKey();
+        }
+
+        private static void SimplifyResults(List<List<HybridAlgorithmStatisticsData>> data)
+        {
+            
         }
 
         private static OperatingData FindWorstSolution(List<OperatingData> population)
@@ -120,8 +152,11 @@ namespace TSP2
             return population;
         }
 
+        private static int recombineIteration = 0;
+
         private static OperatingData Recombine(OperatingData data1, OperatingData data2)
         {
+            recombineIteration++;
             var recombinedData = new OperatingData();
 
             ResolveEdgesMatrix(data1);
@@ -132,12 +167,18 @@ namespace TSP2
             var sharedEdgesMatrix = ResolveSharedEdgesMatrix(sharedVertices, data1.EdgesMatrix, data2.EdgesMatrix,
                 out edgesCountMatrix);
 
-            FillNodeList(sharedVertices);
-            RemoveUnnecessaryNodes(sharedVertices, edgesCountMatrix);
-            ConnectRemainingVertices(sharedVertices, sharedEdgesMatrix);
+            var newPathNodes = FillNodeList(sharedVertices);
 
+            if (sharedVertices.Count < 50)
+            {               
+                var nodesToConnect = RemoveUnnecessaryNodes(newPathNodes, edgesCountMatrix);
+                //ConnectRemainingVertices(sharedVertices, sharedEdgesMatrix);
+                ConnectRemainingVertices(nodesToConnect, sharedEdgesMatrix);
+            }
+            
             recombinedData.EdgesMatrix = sharedEdgesMatrix;
-            recombinedData.PathNodes = ConvertEdgesMatrixToList(sharedEdgesMatrix);
+            //recombinedData.PathNodes = ConvertEdgesMatrixToList(sharedEdgesMatrix);
+            recombinedData.PathNodes = newPathNodes;
             recombinedData.UnusedNodes = FindUnusedNodes(recombinedData.PathNodes.ToList());
             recombinedData.Distance = CalculatePathDistance(recombinedData.PathNodes.ToList());
 
@@ -179,7 +220,7 @@ namespace TSP2
             }
         }
 
-        private static void FillNodeList(List<Node> nodes)
+        private static List<Node> FillNodeList(List<Node> nodes)
         {
             var random = new Random();
 
@@ -194,17 +235,34 @@ namespace TSP2
 
                 nodes.Add(nodeToAdd);
             }
+
+            return nodes;
         }
 
-        private static void RemoveUnnecessaryNodes(List<Node> nodes, Dictionary<Node, int> edgesCountMatrix)
+        //private static void RemoveUnnecessaryNodes(List<Node> nodes, Dictionary<Node, int> edgesCountMatrix)
+        //{
+        //    foreach (var node in edgesCountMatrix.Keys)
+        //    {
+        //        if (edgesCountMatrix[node] >= 2)
+        //        {
+        //            nodes.Remove(node);
+        //        }
+        //    }
+        //}
+
+        private static List<Node> RemoveUnnecessaryNodes(List<Node> nodes, Dictionary<Node, int> edgesCountMatrix)
         {
+            var outputList = (List<Node>)nodes.CloneList();
+
             foreach (var node in edgesCountMatrix.Keys)
             {
                 if (edgesCountMatrix[node] >= 2)
                 {
-                    nodes.Remove(node);
+                    outputList.Remove(node);
                 }
             }
+
+            return outputList;
         }
 
         private static void ConnectRemainingVertices(List<Node> nodes, Dictionary<Node, Dictionary<Node, bool>> edgesMatrix)
@@ -216,7 +274,7 @@ namespace TSP2
                 var firstNode = nodes[random.Next(0, nodes.Count)];
                 var secondNode = nodes[random.Next(0, nodes.Count)];
 
-                while (!IsConnectionValid(firstNode, secondNode, edgesMatrix))
+                while (!IsConnectionValid(firstNode, secondNode, nodes, edgesMatrix))
                 {
                     secondNode = nodes[random.Next(0, nodes.Count)];
                 }
@@ -239,35 +297,145 @@ namespace TSP2
             edgesMatrix[nodes.Last()][nodes.First()] = true;
         }
 
-        private static bool IsConnectionValid(Node node1, Node node2,
-            Dictionary<Node, Dictionary<Node, bool>> edgesMatrix)
+        private static bool IsConnectionValid(Node node1, Node node2, List<Node> nodesToConnect, Dictionary<Node, Dictionary<Node, bool>> edgesMatrix)
         {
+            //foreach (var row in edgesMatrix)
+            //{
+            //    foreach (var column in row.Value)
+            //    {
+            //        Console.Write(Convert.ToInt32(column.Value) + " ");
+            //    }
+
+            //    Console.WriteLine("\n");
+            //}
+
+            //var noOne = 0;
+            //var singleOne = 0;
+            //var doubleOne = 0;
+            //var errors = 0;
+
+            //foreach (var row in edgesMatrix)
+            //{
+            //    var oneInRow = 0;
+
+            //    foreach (var column in row.Value)
+            //    {
+            //        if (column.Value)
+            //        {
+            //            oneInRow++;
+            //        }
+            //    }
+
+            //    switch (oneInRow)
+            //    {
+            //        case 0:
+            //            noOne++;
+            //            break;
+            //        case 1:
+            //            singleOne++;
+            //            break;
+            //        case 2:
+            //            doubleOne++;
+            //            break;
+            //        default:
+            //            errors++;
+            //            break;
+            //    }
+            //}
+
+            //Console.WriteLine("none  :  " + noOne);
+            //Console.WriteLine("single:  " + singleOne);
+            //Console.WriteLine("double:  " + doubleOne);
+            //Console.WriteLine("errors:  " + errors);
+
+            //if (singleOne < 4)
+            //{
+            //    Console.WriteLine("\n### ERROR ###");
+            //    Console.WriteLine("Recombine iteration: " + recombineIteration);
+            //    Debugger.Break();
+            //    //Console.ReadKey();
+            //}       
+
+            //Console.Write("#");
+
             if (node1.Equals(node2))
             {
                 return false;
             }
 
-            var isAnalyzingEdge = true;
-            var currentNode = node1;
-            var previousNode = node2;
-
-            while (isAnalyzingEdge)
+            if (!edgesMatrix[node1].Any(column => column.Value) || !edgesMatrix[node2].Any(column => column.Value))
             {
-                foreach (var column in edgesMatrix[currentNode])
-                {
-                    isAnalyzingEdge = false;
-
-                    if (column.Value && !column.Key.Equals(previousNode))
-                    {
-                        previousNode = (Node)currentNode.Clone();
-                        currentNode = column.Key;
-                        isAnalyzingEdge = true;
-                        break;
-                    }
-                }
+                return true;
             }
 
-            return !currentNode.Equals(node2);
+            //var numberOfAloneNodes = 0;
+            var numberOfEdgePartNodes = 0;
+
+            foreach (var row in edgesMatrix)
+            {
+                var numberOfOnes = 0;
+
+                foreach (var column in row.Value)
+                {
+                    if (column.Value)
+                    {
+                        numberOfOnes++;
+                    }
+                }
+
+                if (numberOfOnes != 1) continue;
+                if (++numberOfEdgePartNodes >= 4)
+                {
+                    return true;
+                }
+
+                //switch (numberOfOnes)
+                //{
+                //    case 0:
+                //        numberOfAloneNodes++;
+                //        break;
+                //    case 1:
+                //        numberOfEdgePartNodes++;
+                //        break;
+                //}
+            }           
+
+            //if (numberOfEdgePartNodes < 4 && numberOfAloneNodes > 0)
+            //{
+            //    return false;
+            //}                    
+
+            //var isAnalyzingEdge = true;
+            //var currentNode = node1;
+            //var previousNode = node2;
+            //var counter = 0;
+
+            //while (isAnalyzingEdge)
+            //{
+            //    //Console.Write(++counter + " ");
+            //    if (counter > 60)
+            //    {
+
+            //    }
+            //    foreach (var column in edgesMatrix[currentNode])
+            //    {
+            //        isAnalyzingEdge = false;
+
+            //        if (column.Value && !column.Key.Equals(previousNode))
+            //        {
+            //            previousNode = (Node)currentNode.Clone();
+            //            currentNode = column.Key;
+            //            isAnalyzingEdge = true;
+            //            break;
+            //        }
+            //    }
+            //}
+
+            //Console.WriteLine(!currentNode.Equals(node2));
+            //Console.WriteLine("PRESS ENTER");
+            ////Console.ReadKey();
+            //return !currentNode.Equals(node2);
+            return true;
         }
 
         private static bool CanBeConnected(Node node, Dictionary<Node, Dictionary<Node, bool>> edgesMatrix)
@@ -330,6 +498,23 @@ namespace TSP2
                 {
                     if (nodes1[i].Id == nodes2[j].Id)
                     {
+                        if (outputList.Contains(nodes1[i]))
+                        {
+                            Console.WriteLine("### PROBLEM ###\n");
+                            Console.WriteLine("nodes1");
+                            var nodes1Sorted = nodes1.OrderBy(node => node.Id);
+                            var nodes2Sorted = nodes2.OrderBy(node => node.Id);
+                            foreach (var node in nodes1Sorted)
+                            {
+                                Console.Write(node.Id + " ");
+                            }
+                            Console.WriteLine("\n\nnodes2");
+                            foreach (var node in nodes2Sorted)
+                            {
+                                Console.Write(node.Id + " ");
+                            }
+                            Debugger.Break();
+                        }
                         outputList.Add((Node)nodes1[i].Clone());
                     }
                 }

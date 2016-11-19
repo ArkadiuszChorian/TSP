@@ -9,7 +9,15 @@ namespace TSP2
     {
         private static readonly Lazy<DAL> Lazy = new Lazy<DAL>(() => new DAL());
         public static DAL Instance => Lazy.Value;
-        private DAL(){}
+
+        private DAL()
+        {
+            //HybridAlgorithmStatistics = new List<Tuple<int, long, int>>(NumberOfHybridGeneticAlgorithmExecutions);
+            //foreach (var hybridAlgorithmStatistic in HybridAlgorithmStatistics)
+            //{
+            //    hybridAlgorithmStatistic = new Tuple<int, long, int>();
+            //}
+        }
 
         public static readonly int NumberOfLocalSearchResults = 1000;
         public static readonly int EvaluationTimeInMiliseconds = 83360;
@@ -17,7 +25,8 @@ namespace TSP2
         public static readonly int PopulationSize = 20;
 
         public IList<Node> Nodes { get; set; } = new List<Node>();
-        public List<Tuple<int, long, int>> HybridAlgorithmStatistics { get; set; } = new List<Tuple<int, long, int>>(NumberOfHybridGeneticAlgorithmExecutions);
+        public List<Tuple<int, long, int>> HybridAlgorithmStatistics { get; set; } = new List<Tuple<int, long, int>>();
+        //public List<Tuple<int, long, int>> HybridAlgorithmStatistics { get; set; } = new List<Tuple<int, long, int>>(NumberOfHybridGeneticAlgorithmExecutions);
         //public IList<AlgorithmOperatingData> AlgorithmsData { get; set; } = new List<AlgorithmOperatingData>();
         //public AlgorithmOperatingData BestLsData { get; set; } = new AlgorithmOperatingData
         //{
@@ -57,10 +66,20 @@ namespace TSP2
             if (StreamWriter == null) StreamWriter = new StreamWriter("results.csv");
         }
 
-        public void WriteToFile()
+        public void WriteToFileForHybridAlgorithm(List<List<HybridAlgorithmStatisticsData>> data)
         {
-            if (StreamWriter == null) return;
-            HybridAlgorithmStatistics.ForEach(statistic => StreamWriter.WriteLine(statistic.Item1 + ";" + statistic.Item2 + ";" + statistic.Item3));
+            //StreamWriter = new StreamWriter("resultsFull1.csv");
+            //if (StreamWriter == null) return;
+
+            for (var i = 0; i < data.Count; i++)
+            {
+                StreamWriter = new StreamWriter("resultsFull" + (i+1) + ".csv");
+                data[i].ForEach(singleIteration =>
+                {
+                    StreamWriter.WriteLine(singleIteration.IterationNumber + ";" + singleIteration.ExecutionTime + ";" + singleIteration.Distance);
+                });
+                StreamWriter.Close();
+            }
         }
 
         public void WriteToFileOld(List<OperatingAndStatisticsData> operatingAndStatisticsDatas)

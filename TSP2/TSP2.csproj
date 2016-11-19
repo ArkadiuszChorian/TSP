@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
+    <Compile Include="HybridAlgorithmStatisticsData.cs" />
     <Compile Include="OperatingAndStatisticsData.cs" />
     <Compile Include="OperatingData.cs" />
     <Compile Include="Comparer.cs" />
